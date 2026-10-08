@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Locally (로컬리) - 초지역 AI 라이프스타일 포털 Enterprise Proof Hub</title>
+  <meta name="description" content="지자체 뉴스·국지성 기상방재·구군별 소통마당·골목상권을 하나로 잇는 초지역 AI 라이프스타일 포털 로컬리(Locally) 기술 포트폴리오">
+  <!-- Pretendard & FontAwesome Icons -->
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Mermaid.js for Architecture Rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+  <style>
+    :root {
+      --primary-navy: #0A192F;
+      --secondary-navy: #112240;
+      --card-bg: #1E293B;
+      --card-inner: #0F172A;
+      --border-color: #334155;
+      --border-focus: #00E5A3;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --brand-mint: #00E5A3;
+      --brand-coral: #FF5A79;
+      --brand-blue: #38BDF8;
+      --brand-amber: #FBBF24;
+      --brand-purple: #A78BFA;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--primary-navy);
+      color: var(--text-main);
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    /* 상단 고정 네비게이션 */
+    header.top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(10, 25, 47, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    .nav-brand span.badge {
+      background: var(--brand-mint);
+      color: var(--primary-navy);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    nav.nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav.nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    nav.nav-links a:hover {
+      color: var(--brand-mint);
+    }
+
+    .nav-cta {
+      background: var(--brand-mint);
+      color: var(--primary-navy);
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .nav-cta:hover {
+      opacity: 0.9;
+    }
+
+    /* 레이아웃 컨테이너 */
+    .container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 50px 24px;
+    }
+
+    /* 히어로 섹션 */
+    .hero-section {
+      padding: 60px 0 40px;
+      border-bottom: 1px solid var(--border-color);
+      text-align: left;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 229, 163, 0.12);
+      border: 1px solid var(--brand-mint);
+      color: var(--brand-mint);
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    h1.hero-title {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.35;
+      letter-spacing: -0.8px;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+    }
+
+    h1.hero-title span.highlight {
+      background: linear-gradient(120deg, var(--brand-mint) 0%, var(--brand-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.hero-desc {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 920px;
+      line-height: 1.7;
+      margin-bottom: 35px;
+    }
+
+    /* 핵심 신뢰도 지표 (Proof Metrics) */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .kpi-card {
+      background: var(--secondary-navy);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      border-left: 4px solid var(--brand-mint);
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .kpi-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    .kpi-sub {
+      font-size: 11.5px;
+      color: var(--brand-mint);
+      margin-top: 4px;
+    }
+
+    /* 공통 섹션 헤더 */
+    .section-block {
+      padding: 70px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-badge {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--brand-mint);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    h2.section-heading {
+      font-size: 26px;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 14px;
+      letter-spacing: -0.5px;
+    }
+
+    p.section-subtext {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 860px;
+      margin-bottom: 35px;
+      line-height: 1.65;
+    }
+
+    /* 4대 핵심 축 그리드 (Section 1) */
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .pillar-box {
+      background: var(--secondary-navy);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 26px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .pillar-box:hover {
+      border-color: var(--brand-mint);
+      transform: translateY(-3px);
+    }
+
+    .pillar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .pillar-num {
+      font-size: 13px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 4px;
+    }
+
+    .p-news {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--brand-blue);
+    }
+
+    .p-weather {
+      background: rgba(0, 229, 163, 0.15);
+      color: var(--brand-mint);
+    }
+
+    .p-comm {
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--brand-amber);
+    }
+
+    .p-shop {
+      background: rgba(255, 90, 121, 0.15);
+      color: var(--brand-coral);
+    }
+
+    .pillar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 10px;
+    }
+
+    .pillar-problem {
+      background: rgba(255, 90, 121, 0.08);
+      border-left: 3px solid var(--brand-coral);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #FECDD3;
+      margin-bottom: 12px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .pillar-solution {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .pillar-solution strong {
+      color: #FFFFFF;
+    }
+
+    /* EA 4-Layer 매트릭스 & 테이블 */
+    .table-container {
+      background: var(--secondary-navy);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 25px 0 35px;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    table.data-table th,
+    table.data-table td {
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: top;
+    }
+
+    table.data-table th {
+      background: #19263E;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 12.5px;
+      white-space: nowrap;
+    }
+
+    table.data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .badge-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .tag-blue {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--brand-blue);
+    }
+
+    .tag-mint {
+      background: rgba(0, 229, 163, 0.15);
+      color: var(--brand-mint);
+    }
+
+    .tag-purple {
+      background: rgba(167, 139, 250, 0.15);
+      color: var(--brand-purple);
+    }
+
+    /* 다이어그램 래퍼 */
+    .diagram-card {
+      background: var(--secondary-navy);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 25px 0;
+      text-align: center;
+    }
+
+    .diagram-caption {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    /* 코드 및 디렉토리 블록 */
+    .code-tree {
+      background: var(--card-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      font-family: "Consolas", monospace;
+      font-size: 12.5px;
+      color: #A5D6FF;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* 페르소나 카드 그리드 (Section 7) */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .persona-card {
+      background: var(--secondary-navy);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .persona-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .persona-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--card-inner);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--brand-mint);
+      border: 2px solid var(--border-color);
+    }
+
+    .persona-meta h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .persona-meta p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .persona-flow {
+      font-size: 13px;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .persona-flow strong {
+      color: var(--brand-mint);
+    }
+
+    .persona-value {
+      background: rgba(0, 229, 163, 0.06);
+      border-left: 3px solid var(--brand-mint);
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #A7F3D0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* 데모 비디오 섹션 (Section 8) */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: #000;
+      margin: 25px 0 40px;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* 특허 공인 증빙관 배너 */
+    .patent-banner {
+      background: linear-gradient(135deg, rgba(17, 34, 64, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
+      border: 1px solid var(--brand-mint);
+      border-radius: 12px;
+      padding: 30px;
+      margin: 30px 0;
+      display: flex;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .patent-icon-box {
+      font-size: 42px;
+      color: var(--brand-mint);
+      flex-shrink: 0;
+      text-align: center;
+      width: 70px;
+    }
+
+    .patent-details h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .patent-details p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .patent-meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .patent-meta-tags span {
+      background: rgba(0, 229, 163, 0.1);
+      border: 1px solid rgba(0, 229, 163, 0.3);
+      color: var(--brand-mint);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 4px;
+    }
+
+    /* 푸터 */
+    footer.page-footer {
+      background: var(--card-inner);
+      border-top: 1px solid var(--border-color);
+      padding: 40px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    footer.page-footer a {
+      color: var(--brand-mint);
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+
+      .pillar-grid,
+      .persona-grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav.nav-links {
+        display: none;
+      }
+
+      h1.hero-title {
+        font-size: 28px;
+      }
+
+      .patent-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* ==========================================================================
+       SECTION 06 UI/UX 디자인 쇼케이스 전용 스타일
+       ========================================================================== */
+    .uiux-tab-group {
+      background: var(--secondary-navy);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 28px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .uiux-tab-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .uiux-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border-color);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .uiux-group-info {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .uiux-group-tag-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .uiux-group-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .uiux-group-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .uiux-screens-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .uiux-screen-card {
+      background: var(--card-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+    }
+
+    .uiux-screen-card:hover {
+      border-color: var(--brand-mint);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 229, 163, 0.12);
+    }
+
+    .uiux-mockup {
+      position: relative;
+      background: #000000;
+      border-radius: 20px;
+      padding: 6px 6px 10px;
+      border: 2px solid #334155;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      margin-bottom: 12px;
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+
+    .uiux-mockup::before {
+      content: "";
+      display: block;
+      width: 44px;
+      height: 4px;
+      background: #334155;
+      border-radius: 3px;
+      margin: 2px auto 6px;
+    }
+
+    .uiux-mockup img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+      aspect-ratio: 430 / 932;
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.3s ease;
+    }
+
+    .uiux-mockup:hover img {
+      transform: scale(1.02);
+    }
+
+    .uiux-mockup .zoom-hint {
+      position: absolute;
+      bottom: 16px;
+      right: 12px;
+      background: rgba(10, 25, 47, 0.85);
+      backdrop-filter: blur(4px);
+      color: #FFFFFF;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .uiux-mockup:hover .zoom-hint {
+      opacity: 1;
+    }
+
+    .uiux-card-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex-grow: 1;
+    }
+
+    .uiux-card-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--brand-mint);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .uiux-card-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.4;
+    }
+
+    .uiux-card-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .uiux-card-chips {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .uiux-chip {
+      font-size: 10.5px;
+      padding: 2px 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      color: #CBD5E1;
+      white-space: nowrap;
+    }
+
+    /* 이미지 라이트박스 팝업 */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 25, 47, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+    }
+
+    .lightbox-wrap {
+      position: relative;
+      max-width: 90vw;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 14px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      border: 2px solid var(--border-color);
+    }
+
+    .lightbox-cap {
+      margin-top: 12px;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -38px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #FFFFFF;
+      font-size: 26px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover {
+      color: var(--brand-coral);
+    }
+
+    /* ==========================================================================
+       좌측 사이드바 내비게이션 (심사 문서 4종 & 목차 연동)
+       ========================================================================== */
+    .app-layout {
+      display: flex;
+      min-height: calc(100vh - 65px);
+      position: relative;
+    }
+
+    .sidebar-nav {
+      width: 300px;
+      flex-shrink: 0;
+      background: rgba(17, 34, 64, 0.95);
+      backdrop-filter: blur(16px);
+      border-right: 1px solid var(--border-color);
+      position: sticky;
+      top: 65px;
+      height: calc(100vh - 65px);
+      overflow-y: auto;
+      padding: 22px 16px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 900;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sidebar-nav::-webkit-scrollbar {
+      width: 5px;
+    }
+    .sidebar-nav::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    .sidebar-header-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-header-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sidebar-header-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .sidebar-close-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: color 0.2s;
+    }
+    .sidebar-close-btn:hover {
+      color: var(--brand-coral);
+    }
+
+    .sidebar-section-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--brand-mint);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-menu-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sidebar-link-card {
+      display: block;
+      text-decoration: none;
+      background: var(--card-inner);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 11px 12px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .sidebar-link-card:hover {
+      border-color: var(--brand-mint);
+      background: rgba(0, 229, 163, 0.06);
+      transform: translateX(3px);
+    }
+
+    .sidebar-link-card.active {
+      border-color: var(--brand-mint);
+      background: rgba(0, 229, 163, 0.12);
+      box-shadow: 0 4px 14px rgba(0, 229, 163, 0.12);
+    }
+
+    .sidebar-link-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-link-tag {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .tag-q1 { background: rgba(255, 90, 121, 0.2); color: var(--brand-coral); }
+    .tag-q2 { background: rgba(56, 189, 248, 0.2); color: var(--brand-blue); }
+    .tag-q3 { background: rgba(167, 139, 250, 0.2); color: var(--brand-purple); }
+    .tag-q4 { background: rgba(251, 191, 36, 0.2); color: var(--brand-amber); }
+    .tag-hub { background: rgba(0, 229, 163, 0.2); color: var(--brand-mint); }
+
+    .sidebar-link-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.35;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sidebar-link-card:hover .sidebar-link-title {
+      color: var(--brand-mint);
+    }
+
+    .sidebar-link-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-top: 4px;
+      padding-left: 18px;
+    }
+
+    .sidebar-toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .sidebar-toc-item a {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 9px;
+      border-radius: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-toc-item a:hover {
+      color: var(--brand-mint);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .sidebar-toc-item a i {
+      font-size: 10px;
+      width: 14px;
+      text-align: center;
+      color: var(--brand-mint);
+    }
+
+    .sidebar-footer-info {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-color);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .sidebar-toggle-btn {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--brand-mint);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 11px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: var(--secondary-navy);
+      border-color: var(--brand-mint);
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 25, 47, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 850;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    .main-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    @media (max-width: 1240px) {
+      .sidebar-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1050;
+        transform: translateX(-100%);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .sidebar-nav.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-close-btn {
+        display: block;
+      }
+
+      .sidebar-toggle-btn {
+        display: inline-flex;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 상단 네비게이션 -->
+  <header class="top-nav">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="심사 문서 서랍 열기">
+        <i class="fa-solid fa-folder-tree"></i> <span>심사 서류</span>
+      </button>
+      <a href="#" class="nav-brand">
+        <i class="fa-solid fa-location-dot" style="color:var(--brand-mint);"></i>
+        <span>LOCALLY</span>
+        <span class="badge">TRL 6 PROOF HUB</span>
+      </a>
+    </div>
+    <nav class="nav-links">
+      <a href="#concept">1. 핵심 컨셉</a>
+      <a href="#ea">2. 엔터프라이즈 아키텍처</a>
+      <a href="#stack">3. 기술 스택</a>
+      <a href="#directory">4. 디렉토리 구조</a>
+      <a href="#history">5. 개발 경과</a>
+      <a href="#uiux">6. UI/UX 디자인</a>
+      <a href="#persona">7. 페르소나 시나리오</a>
+      <a href="#demo">8. 데모 & 특허 증빙</a>
+    </nav>
+  </header>
+
+  <!-- 모바일 사이드바 배경 오버레이 -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <div class="app-layout">
+    <!-- 좌측 심사 문서 & 내비게이션 사이드바 -->
+    <aside class="sidebar-nav" id="sidebarNav">
+      <div class="sidebar-header-box">
+        <div>
+          <div class="sidebar-header-title">
+            <i class="fa-solid fa-folder-open" style="color:var(--brand-mint);"></i>
+            <span>PROJECT DOSSIER</span>
+          </div>
+          <div class="sidebar-header-sub">2026 AI서비스개발 프로젝트 심사서류</div>
+        </div>
+        <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="메뉴 닫기">&times;</button>
+      </div>
+
+      <!-- 4대 핵심 질문 답변서 링크 그룹 -->
+      <div>
+        <div class="sidebar-section-title">
+          <span><i class="fa-solid fa-file-lines"></i> 4대 핵심 질문 답변서</span>
+          <span style="font-size:10px; color:var(--text-muted);">4 DOCS</span>
+        </div>
+        <ul class="sidebar-menu-list">
+          <!-- 문서 01 -->
+          <li>
+            <a href="01_어떤 문제를 해결하고자 하며, 기존 방식과 무엇이 다른가요.html" target="_blank" class="sidebar-link-card">
+              <div class="sidebar-link-top">
+                <span class="sidebar-link-tag tag-q1">DOC 01</span>
+                <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px; color:var(--text-muted);"></i>
+              </div>
+              <div class="sidebar-link-title">
+                <i class="fa-solid fa-circle-question" style="color:var(--brand-coral);"></i>
+                <span>01. 문제 정의 및 차별성</span>
+              </div>
+              <div class="sidebar-link-sub">거시 포털·맘카페 한계 vs 226개 선거구 독립 OS</div>
+            </a>
+          </li>
+
+          <!-- 문서 02 -->
+          <li>
+            <a href="02_아이디어를 어떻게 구현할 계획인가요.html" target="_blank" class="sidebar-link-card">
+              <div class="sidebar-link-top">
+                <span class="sidebar-link-tag tag-q2">DOC 02</span>
+                <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px; color:var(--text-muted);"></i>
+              </div>
+              <div class="sidebar-link-title">
+                <i class="fa-solid fa-screwdriver-wrench" style="color:var(--brand-blue);"></i>
+                <span>02. 아이디어 구현 계획</span>
+              </div>
+              <div class="sidebar-link-sub">모바일 퍼스트 430px PWA & v3.13 마스터 스키마</div>
+            </a>
+          </li>
+
+          <!-- 문서 03 -->
+          <li>
+            <a href="03_이 아이디어를 실현하기 위해 AI를 어떻게 활용할 예정인가요.html" target="_blank" class="sidebar-link-card">
+              <div class="sidebar-link-top">
+                <span class="sidebar-link-tag tag-q3">DOC 03</span>
+                <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px; color:var(--text-muted);"></i>
+              </div>
+              <div class="sidebar-link-title">
+                <i class="fa-solid fa-microchip" style="color:var(--brand-purple);"></i>
+                <span>03. AI 활용 방안 및 데이터</span>
+              </div>
+              <div class="sidebar-link-sub">비정형 댓글 SLM 3원칙, XAI & 자동 파이프라인</div>
+            </a>
+          </li>
+
+          <!-- 문서 04 -->
+          <li>
+            <a href="04_이 프로젝트의 최종 목표는 무엇인가요.html" target="_blank" class="sidebar-link-card">
+              <div class="sidebar-link-top">
+                <span class="sidebar-link-tag tag-q4">DOC 04</span>
+                <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px; color:var(--text-muted);"></i>
+              </div>
+              <div class="sidebar-link-title">
+                <i class="fa-solid fa-flag-checkered" style="color:var(--brand-amber);"></i>
+                <span>04. 프로젝트 최종 목표</span>
+              </div>
+              <div class="sidebar-link-sub">TRL 6 실가동 검증, 8주 실증 PoC & 특허 확보</div>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 현재 메인 포트폴리오 허브 -->
+      <div>
+        <div class="sidebar-section-title">
+          <span><i class="fa-solid fa-layer-group"></i> MAIN PROOF HUB</span>
+        </div>
+        <ul class="sidebar-menu-list">
+          <li>
+            <a href="#" class="sidebar-link-card active">
+              <div class="sidebar-link-top">
+                <span class="sidebar-link-tag tag-hub">CURRENT HUB</span>
+                <i class="fa-solid fa-circle-check" style="font-size:11px; color:var(--brand-mint);"></i>
+              </div>
+              <div class="sidebar-link-title">
+                <i class="fa-solid fa-house-chimney" style="color:var(--brand-mint);"></i>
+                <span>00. 엔터프라이즈 포트폴리오</span>
+              </div>
+              <div class="sidebar-link-sub">전 분야 기술 구현 증빙 & 실가동 스크린샷</div>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 페이지 내부 목차 (TOC) -->
+      <div>
+        <div class="sidebar-section-title">
+          <span><i class="fa-solid fa-list-ul"></i> 페이지 목차 (TOC)</span>
+        </div>
+        <ul class="sidebar-toc-list">
+          <li class="sidebar-toc-item"><a href="#concept"><i class="fa-solid fa-chevron-right"></i> 1. 핵심 컨셉</a></li>
+          <li class="sidebar-toc-item"><a href="#ea"><i class="fa-solid fa-chevron-right"></i> 2. EA 아키텍처</a></li>
+          <li class="sidebar-toc-item"><a href="#stack"><i class="fa-solid fa-chevron-right"></i> 3. 기술 스택</a></li>
+          <li class="sidebar-toc-item"><a href="#directory"><i class="fa-solid fa-chevron-right"></i> 4. 디렉토리 구조</a></li>
+          <li class="sidebar-toc-item"><a href="#history"><i class="fa-solid fa-chevron-right"></i> 5. 개발 경과</a></li>
+          <li class="sidebar-toc-item"><a href="#uiux"><i class="fa-solid fa-chevron-right"></i> 6. UI/UX 15대 화면</a></li>
+          <li class="sidebar-toc-item"><a href="#persona"><i class="fa-solid fa-chevron-right"></i> 7. 페르소나 시나리오</a></li>
+          <li class="sidebar-toc-item"><a href="#demo"><i class="fa-solid fa-chevron-right"></i> 8. 데모 & 특허 증빙</a></li>
+        </ul>
+      </div>
+
+      <!-- 사이드바 하단 정보 -->
+      <div class="sidebar-footer-info">
+        <div style="font-weight:700; color:#FFFFFF; margin-bottom:4px;">
+          <i class="fa-solid fa-shield-halved" style="color:var(--brand-mint);"></i> TRL 6단계 실가동 완비
+        </div>
+        <div>특허 제10-2026-0182139호 출원</div>
+        <div style="margin-top:6px; color:var(--text-muted); font-size:11px;">
+          <i class="fa-solid fa-location-dot" style="color:var(--brand-mint);"></i> 실증 거점: 경기도 화성시 봉담
+        </div>
+      </div>
+    </aside>
+
+    <!-- 우측 메인 콘텐츠 영역 -->
+    <main class="main-content">
+      <div class="container">
+
+    <!-- 히어로 섹션 -->
+    <section class="hero-section">
+      <div class="hero-tag">
+        <i class="fa-solid fa-shield-halved"></i> 2026 모두의 AI 실험실 AI 서비스 개발 프로젝트 제출 포트폴리오
+      </div>
+      <h1 class="hero-title">
+        중앙집중형 포털과 노후 맘카페를 넘어,<br>
+        <span class="highlight">226개 기초지자체 단위 초지역 AI 라이프스타일 포털</span>
+      </h1>
+      <p class="hero-desc">
+        로컬리(Locally)는 거시 뉴스에 가려진 <strong>동네 자치 뉴스</strong>, 분 단위 골든타임을 예보하는 <strong>동네 기상 방재</strong>, 맘카페를 대체하는
+        <strong>군·구 선거구 독립 AI 소통마당</strong>, 그리고 특허 기반 비정형 댓글 SLM과 원자적 재고 락을 적용한 <strong>골목상권 커머스</strong>를 430px 모바일 단일
+        뷰포트에 통합한 하이퍼로컬 OS입니다.
+      </p>
+
+      <div class="kpi-strip">
+        <div class="kpi-card">
+          <div class="kpi-label">기술 성숙도 레벨 (TRL)</div>
+          <div class="kpi-val">TRL 6단계</div>
+          <div class="kpi-sub">화성시 봉담 마스터 거점 실가동 완료</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">정부 공인 원천 특허</div>
+          <div class="kpi-val">출원 완료 (1건)</div>
+          <div class="kpi-sub">특허 제10-2026-0182139호 등 독점 확보</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">공간 분리 거버넌스</div>
+          <div class="kpi-val">전국 226개</div>
+          <div class="kpi-sub">기초지자체 단체장 선거구 마스터 완비</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">8주 실증 목표 (PoC)</div>
+          <div class="kpi-val">주문 100건+</div>
+          <div class="kpi-sub">상인 수기 대조 공수 87.5% 절감 실증</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. 솔루션 기본 컨셉 소개 (4대 축) -->
+    <section id="concept" class="section-block">
+      <div class="section-badge">SECTION 01. CORE CONCEPT</div>
+      <h2 class="section-heading">4대 동네 생활 결핍과 로컬리 혁신 컨셉</h2>
+      <p class="section-subtext">
+        기존의 거대 플랫폼과 노후화된 온라인 커뮤니티가 해결하지 못했던 동네 단위의 생활 불편을 4대 핵심 축으로 정의하고, 최신 하이퍼로컬 AI 아키텍처로 전면 쇄신합니다.
+      </p>
+
+      <div class="pillar-grid">
+        <!-- 1. 동네 뉴스 -->
+        <div class="pillar-box">
+          <div class="pillar-header">
+            <span class="pillar-num p-news">PILLAR 01</span>
+            <i class="fa-regular fa-newspaper" style="color:var(--brand-blue); font-size:18px;"></i>
+          </div>
+          <div class="pillar-title">동네 뉴스: 지자체 중심 분산 큐레이션</div>
+          <div class="pillar-problem">
+            <strong>기존 문제:</strong> 네이버 중심의 중앙 집중형 뉴스 유통은 내 삶에 가장 필요한 지자체 조례·복지·도로 소식을 90% 이상 검색 누락시키며, 블로그나 오픈톡 가입을
+            강제함.
+          </div>
+          <div class="pillar-solution">
+            <strong>로컬리 혁신:</strong> 전국 40여 개 경합 도시 대조 및 주체-객체 전도 방어 엔진(Locality Validator v1.5.0)을 탑재하여, 군·구 선거구 3단
+            탭([전체], [효행구], [화성시])에 최신순 순수 행정 뉴스를 0ms SWR로 직배송합니다.
+          </div>
+        </div>
+
+        <!-- 2. 동네 기상 -->
+        <div class="pillar-box">
+          <div class="pillar-header">
+            <span class="pillar-num p-weather">PILLAR 02</span>
+            <i class="fa-solid fa-cloud-bolt" style="color:var(--brand-mint); font-size:18px;"></i>
+          </div>
+          <div class="pillar-title">동네 기상: 국지성 기상이변 도착시간 예보</div>
+          <div class="pillar-problem">
+            <strong>기존 문제:</strong> 버스·전철은 분 단위 도착 시각을 알 수 있으나, 1~2km 반경의 국지성 게릴라 폭우·폭설·도심 침수 도착 시각은 예보조차 없어 보행자 및 상권 피해
+            발생.
+          </div>
+          <div class="pillar-solution">
+            <strong>로컬리 혁신:</strong> NASA GIBS 및 RainViewer 데이터를 순수 TS로 역압축한 60fps 무격자 위성 구름 레이더와 초단기 시계열 파싱을 결합하여, "15분
+            뒤 화성시 봉담읍 시간당 20mm 강한 비" 형태의 1문장 AI 행동 티커를 제공합니다.
+          </div>
+        </div>
+
+        <!-- 3. 동네 마당 -->
+        <div class="pillar-box">
+          <div class="pillar-header">
+            <span class="pillar-num p-comm">PILLAR 03</span>
+            <i class="fa-solid fa-users-viewfinder" style="color:var(--brand-amber); font-size:18px;"></i>
+          </div>
+          <div class="pillar-title">동네 마당: 226개 선거구 독립 AI 소통 공간</div>
+          <div class="pillar-problem">
+            <strong>기존 문제:</strong> 스마트폰·AI 시대임에도 올드한 맘카페 중심의 낙후된 UI/UX에 갇혀 상업 광고와 특정 집단의 여론 왜곡이 발생하며, 실시간 동네 소통이 차단됨.
+          </div>
+          <div class="pillar-solution">
+            <strong>로컬리 혁신:</strong> 읍 단위 유동성 한계를 넘어 전국 226개 기초지자체 단체장 선거구 기준 구/군/시 독립 공간(`community_spaces`)을 구현하고, 6시간
+            TTL 번개모임 및 매 정시 AI 핫이슈 자동 요약 브리핑 카드를 서빙합니다.
+          </div>
+        </div>
+
+        <!-- 4. 동네 커머스 -->
+        <div class="pillar-box">
+          <div class="pillar-header">
+            <span class="pillar-num p-shop">PILLAR 04</span>
+            <i class="fa-solid fa-store" style="color:var(--brand-coral); font-size:18px;"></i>
+          </div>
+          <div class="pillar-title">동네 커머스: 골목상권 댓글 타임세일 자동화</div>
+          <div class="pillar-problem">
+            <strong>기존 문제:</strong> 대형 프랜차이즈와 새벽배송·퀵커머스 잠식에 맞서 오픈채팅 공구로 자구책을 찾던 상인들이 비정형 댓글의 수기 장부 대조 피로와 8% 이상의 주문 누락으로
+            폐업 위기.
+          </div>
+          <div class="pillar-solution">
+            <strong>로컬리 혁신:</strong> 특허 제10-2026-0182139호 기반: 비정형 구어체 댓글을 Few-shot SLM이 0.1초 만에 JSON 구조화하고, PostgreSQL
+            배타적 행 잠금(`FOR UPDATE`)으로 재고를 원자적 차감하여 수수료 0% 옴니채널 거래를 완결합니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 엔터프라이즈 아키텍처 (EA: BA, AA, DA, TA) -->
+    <section id="ea" class="section-block">
+      <div class="section-badge">SECTION 02. ENTERPRISE ARCHITECTURE</div>
+      <h2 class="section-heading">전체적인 엔터프라이즈 아키텍처 (EA 4대 계층)</h2>
+      <p class="section-subtext">
+        로컬리는 비즈니스(BA), 애플리케이션(AA), 데이터(DA), 기술 인프라(TA)의 유기적 결합을 통해 공공 데이터 거버넌스와 고성능 트랜잭션을 동시에 충족하는 엔터프라이즈 설계를 완비했습니다.
+      </p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th>계층 명칭</th>
+              <th>핵심 구성 요소 및 아키텍처 역할</th>
+              <th>비즈니스 및 기술적 가치</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge-pill tag-blue">BA</span></td>
+              <td><strong>Business Architecture<br>(비즈니스 아키텍처)</strong></td>
+              <td>• 주민-골목상점-지자체 3자 상생 가치사슬<br>• 기후재난 보행안전망 및 수수료 0% 마감 타임세일<br>• 전국 226개 자치단체장 선거구 기반 GovTech 모델</td>
+              <td>배달앱 15% 수수료 착취 타파, 영세 상점 미판매 재고 폐기율 30% 감축, 지자체 재난 안전 골든타임 확보</td>
+            </tr>
+            <tr>
+              <td><span class="badge-pill tag-mint">AA</span></td>
+              <td><strong>Application Architecture<br>(애플리케이션 아키텍처)</strong></td>
+              <td>• 430px 반응형 모바일 PWA 클라이언트 (Next.js 16 App Router)<br>• BFF API Gateway 계층 (`/app/api/...`)<br>•
+                FastMCP Python ETL 엔진 & Few-shot SLM 파서 결합</td>
+              <td>별도 앱 설치 없는 0초 로딩, 클라이언트 SWR 인메모리 0ms 탭 전환, 하이브리드 LOD 및 60fps 캔버스 렌더링</td>
+            </tr>
+            <tr>
+              <td><span class="badge-pill tag-purple">DA</span></td>
+              <td><strong>Data Architecture<br>(데이터 아키텍처)</strong></td>
+              <td>• Supabase PostgreSQL 15+ & PostGIS 4중 공간 RPC<br>• 226개 선거구 공간 마스터 (`community_spaces`)<br>• 오피넷 300콜
+                쿼터 방어 캐시(L2) & ITS 930건 영속 캐시</td>
+              <td>PostgreSQL SELECT FOR UPDATE 배타적 행 잠금 기반 오버셀링 0% 보증, 1년 소멸 시효 뷰 등 법적 안전장치</td>
+            </tr>
+            <tr>
+              <td><span class="badge-pill tag-blue">TA</span></td>
+              <td><strong>Technical Architecture<br>(기술 인프라 아키텍처)</strong></td>
+              <td>• Vercel Edge Serverless BFF Gateway<br>• Supabase Cloud (RLS, PostGIS, Storage, Triggers)<br>• Python
+                3.10+ FastMCP 서버 & Hls.js HTTPS HLS=4 스트리밍</td>
+              <td>공모전 지원 자원(토큰 100만P, 클라우드 월 30만원) 내에서 완벽 구동, 99.9% 가용성 및 0.12초 초저지연 달성</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mermaid EA 다이어그램 -->
+      <div class="diagram-card">
+        <div class="mermaid">
+          flowchart TB
+          subgraph ClientLayer ["1. Presentation Layer (Mobile PWA - Max 430px)"]
+          UI["MobileAppShell (5대 탭 통합 뷰)"]
+          T1["동네 뉴스 (3단 선거구 탭)"]
+          T2["동네 기상 (60fps 무격자 래스터)"]
+          T3["동네 마당 (226개 독립 공간 SNS)"]
+          T4["동네 커머스 (타임세일 & 공구)"]
+          UI --> T1 & T2 & T3 & T4
+          end
+
+          subgraph BFFLayer ["2. BFF API Gateway Layer (Next.js 16 App Router)"]
+          API_N["/api/news/local (Locality Validator v1.5.0)"]
+          API_W["/api/weather/* (무격자 래스터 & AI 티커)"]
+          API_C["/api/community/* (구/군 독립 공간 피드)"]
+          API_D["/api/commerce/deals (원자적 재고 락 RPC)"]
+          AUTH["useAuthGuard (미인증 쓰기 인터셉터)"]
+          end
+
+          subgraph FastMCPLayer ["3. Intelligence & ETL Layer (Python FastMCP :8000)"]
+          MCP["FastMCP Core Controller"]
+          VAL["locality_validator.py (40개 도시 역색인)"]
+          PARSER["HybridOrderParsingEngine (Few-shot SLM)"]
+          MCP --> VAL & PARSER
+          end
+
+          subgraph DataLayer ["4. Enterprise Data Layer (Supabase PostGIS v3.13)"]
+          DB_SPATIAL["community_spaces (226개 선거구 마스터)"]
+          DB_NEWS["local_news (TIER1/TIER2 복합 인덱스)"]
+          DB_COMMERCE["commerce_deals & process_comment_order()"]
+          DB_PROV["handle_new_user_provisioning() 자동 트리거"]
+          end
+
+          ClientLayer --> BFFLayer
+          BFFLayer <--> FastMCPLayer
+            BFFLayer <--> DataLayer
+              FastMCPLayer --> DataLayer
+        </div>
+        <div class="diagram-caption">【그림 1】 로컬리 엔터프라이즈 4-Tier 아키텍처 파이프라인 흐름도</div>
+      </div>
+    </section>
+
+    <!-- 3. 기술 스택 명세 -->
+    <section id="stack" class="section-block">
+      <div class="section-badge">SECTION 03. TECHNOLOGY STACK</div>
+      <h2 class="section-heading">검증된 엔터프라이즈 기술 스택 명세</h2>
+      <p class="section-subtext">
+        외부 의존성을 최소화하고 엄격한 타입 안전성과 실시간 트랜잭션을 보장하기 위해 Next.js 16 App Router, Pure TypeScript 래스터 엔진, Supabase PostGIS,
+        FastMCP를 채택했습니다.
+      </p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>영역</th>
+              <th>기술 및 프레임워크</th>
+              <th>채택 버전</th>
+              <th>도입 목적 및 기술적 특징</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Frontend</strong></td>
+              <td>Next.js (App Router), React, Tailwind CSS</td>
+              <td>16.3.0 / 19.2.8 / v4.0.0</td>
+              <td>React 19 비동기 Actions 준수, 모바일 430px 반응형 뷰포트, 커스텀 브랜드 토큰 테마</td>
+            </tr>
+            <tr>
+              <td><strong>Data Fetching</strong></td>
+              <td>SWR</td>
+              <td>^2.5.1</td>
+              <td>BFF API 응답의 클라이언트 인메모리 캐싱, 0ms 탭 전환, 낙관적 업데이트(Optimistic UI)</td>
+            </tr>
+            <tr>
+              <td><strong>Authentication</strong></td>
+              <td>Supabase Auth, Naver OAuth 2.0</td>
+              <td>최신 OpenAPI 규격</td>
+              <td>소셜 3초 로그인, 미인증 쓰기 인터셉터(`useAuthGuard`), 신규 유저 원자적 프로비저닝 트리거</td>
+            </tr>
+            <tr>
+              <td><strong>GIS & Maps</strong></td>
+              <td>MapLibre GL, proj4, Pure TS KATEC Converter</td>
+              <td>Custom / ^2.22.0</td>
+              <td>KATEC(EPSG:5179) ↔ WGS84 초고속 브라우저 변환, 하이브리드 LOD 및 3km/5km 듀얼 반경</td>
+            </tr>
+            <tr>
+              <td><strong>Image & Video</strong></td>
+              <td>Pure TypeScript PNG Engine, Hls.js</td>
+              <td>zlib / ^1.7.3</td>
+              <td>Scanline Unfiltering 및 Paeth 역필터 무격자 타일 합성, ITS CCTV 정품 HTTPS HLS=4 재생</td>
+            </tr>
+            <tr>
+              <td><strong>Backend / ETL</strong></td>
+              <td>Python FastMCP, FastAPI</td>
+              <td>Python 3.10+</td>
+              <td>Port 8000 기반 FastMCP 서버, 공공데이터 파이프라인 및 Locality Validator v1.5.0 동기화</td>
+            </tr>
+            <tr>
+              <td><strong>Database</strong></td>
+              <td>Supabase PostgreSQL, PostGIS</td>
+              <td>PostgreSQL 15+</td>
+              <td>PostGIS 공간 RPC, pgvector, v3.13 마스터 스키마(선거구 독립 공간, FOR UPDATE 행 락)</td>
+            </tr>
+            <tr>
+              <td><strong>AI / SLM</strong></td>
+              <td>Few-shot Prompt SLM, Hybrid Engine</td>
+              <td>Custom Pipeline</td>
+              <td>비정형 댓글 주문 의도 및 수량 파싱, 신뢰도(Confidence) 0.75 임계치 가드레일</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. 디렉토리 구조 (Tree) -->
+    <section id="directory" class="section-block">
+      <div class="section-badge">SECTION 04. DIRECTORY STRUCTURE</div>
+      <h2 class="section-heading">모듈형 단일 진실 공급원(SSOT) 디렉토리 구조</h2>
+      <p class="section-subtext">
+        프론트엔드 BFF와 백엔드 ETL 파이프라인의 정책 표류(Policy Drift)를 방지하고 유지보수성을 극대화하기 위해 체계적으로 모듈화된 프로젝트 구조입니다.
+      </p>
+
+      <div class="code-tree">
+        locally-app/
+        ├── app/ # Next.js 16 App Router 루트
+        │ ├── api/ # BFF API Gateway 라우트군
+        │ │ ├── auth/naver/ # [v1.5.0] 네이버 OAuth 2.0 및 자동 프로비저닝
+        │ │ ├── geo/ # 4단계 위치 복원 체계 (GPS -> IP -> Fallback)
+        │ │ ├── news/local/ # [v1.5.0] 3단 선거구 탭 & Locality Validator TS
+        │ │ ├── weather/ # 60fps 무격자 구름 래스터 & AI 행동 티커
+        │ │ ├── map/layers/ # 커머스·주유소·교통돌발 3대 레이어 병렬 집계
+        │ │ ├── community/ # 226개 구/군/시 독립 공간 SNS & 정시 AI 요약
+        │ │ └── commerce/deals/ # 타임세일 & 공동구매 재고 현황
+        │ ├── layout.tsx & page.tsx # 430px 모바일 셸 & AuthProvider 통합 엔트리
+        │ └── globals.css # Tailwind v4 디자인 시스템 토큰
+        ├── components/ # 모바일 PWA 반응형 UI 컴포넌트군
+        │ ├── auth/ # AuthModal, AuthRequiredModal (인터셉트 가드)
+        │ ├── news/ # NewsFeed (3단 세그먼트 탭), NewsCard (AI 3줄 요약)
+        │ ├── weather/ # WeatherHeroMap, EnvironmentSafetyCard (100점 러닝 지수)
+        │ ├── community/ # CommunityView, CommentThread (자연어 댓글 주문 UI)
+        │ ├── commerce/ # CommerceView, MerchantDashboardView (상인 대시보드)
+        │ └── map/ # LocallyMap, CCTVDetailModal (HLS), KakaoRoadviewModal
+        ├── hooks/ # SWR 및 전역 상태 인터셉트 훅
+        │ ├── useAuth.tsx & useAuthGuard.ts # [v1.5.0] 비인가 게스트 쓰기 인터셉터 및 세션 구독
+        │ ├── useUserLocation.ts # PostGIS 4중 위치 복원 훅
+        │ ├── useLocalNews.ts # 자치구 선거구 로컬 뉴스 SWR 훅 (0ms 탭 전환)
+        │ └── useCommunity.ts # 구/군 독립 공간 피드 및 실시간 주문 훅
+        ├── lib/ # 핵심 비즈니스 로직 및 GIS 엔진
+        │ ├── ai/HybridOrderParsingEngine.ts # [특허 출원] 온디바이스 정규식 + Few-shot SLM 파서
+        │ ├── news/localityValidatorTs.ts # [v1.5.0] Python 100% 미러링 TypeScript 공간 검증기
+        │ ├── geo/katec.ts # 순수 TypeScript KATEC ↔ WGS84 고속 변환기
+        │ ├── weather/runningScore.ts # 5대 환경변수 스포츠 생체기상 100점 연산 엔진
+        │ └── utils/formatTime.ts # 앱 전역 시간 표기 단일 진실 공급원 (SSOT)
+        ├── server/ # Python 3.10+ FastMCP & ETL 파이프라인 (:8000)
+        │ ├── etl/core/locality_validator.py # 주체-객체 전도 방어 및 40여 개 경합 지자체 역색인 대조
+        │ ├── etl/pipelines/sync_news.py # 자치단체장 선거구 뉴스 수집 및 시맨틱 클러스터링
+        │ └── mcp/main.py # FastMCP 서버 엔트리포인트
+        ├── supabase/migrations/ # Supabase PostgreSQL v3.13 마스터 스키마
+        │ └── 20260813_init_locally_schema.sql # 226개 공간, FOR UPDATE 행 락 RPC, Auth 트리거
+        └── tests/test_locality_validator_ts.ts # [v1.5.0] 395라인 공간 적합성 단위 테스트 슈트
+      </div>
+    </section>
+
+    <!-- 5. 개발 경과 (Milestones) -->
+    <section id="history" class="section-block">
+      <div class="section-badge">SECTION 05. DEVELOPMENT ROADMAP</div>
+      <h2 class="section-heading">체계적인 개발 경과 및 기술 마일스톤</h2>
+      <p class="section-subtext">
+        기초 디자인 토큰 정의부터 시작하여 2대 특허 출원, 226개 선거구 공간 분리, Locality Validator v1.5.0, 그리고 v3.13 마스터 스키마까지 TRL 6단계의 검증을 100%
+        완료했습니다.
+      </p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>버전 / 단계</th>
+              <th>목표 및 개발 범위</th>
+              <th>완료 상태</th>
+              <th>주요 달성 엔지니어링 내역</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Phase 1 ~ 5</strong></td>
+              <td>기반 시스템 & 공공 API 파이프라인</td>
+              <td><span class="badge-pill tag-mint">완료 (100%)</span></td>
+              <td>Next.js 16 BFF 구축, Tailwind v4 토큰, KATEC 좌표 변환기, 에어코리아·오피넷·ITS 연동</td>
+            </tr>
+            <tr>
+              <td><strong>v1.2.1 ~ v1.2.2</strong></td>
+              <td>위성 구름 래스터 & 러닝 쾌적도 지수</td>
+              <td><span class="badge-pill tag-mint">완료 (100%)</span></td>
+              <td>Pure TS in-memory PNG 디코더(무격자 타일링), 5대 환경변수 100점 러닝 지수 엔진 구축</td>
+            </tr>
+            <tr>
+              <td><strong>v1.3.0 ~ v1.3.1</strong></td>
+              <td>유가 쿼터 방어 & ITS CCTV HLS</td>
+              <td><span class="badge-pill tag-mint">완료 (100%)</span></td>
+              <td>오피넷 300콜 L2 캐시, 석유관리원 1년 시효 뷰, ITS 공공 CCTV 정품 HTTPS HLS=4 스트리밍</td>
+            </tr>
+            <tr>
+              <td><strong>v1.3.5</strong></td>
+              <td><strong>자연어 커머스 & 2대 특허 출원 완료</strong></td>
+              <td><span class="badge-pill tag-mint">완료 (100%)</span></td>
+              <td><strong>특허 제10-2026-0182139호 출원 완료</strong>, Few-shot SLM 파서, PostgreSQL FOR UPDATE 원자적 락</td>
+            </tr>
+            <tr>
+              <td><strong>v1.3.6 ~ v1.3.8</strong></td>
+              <td>226개 선거구 독립 공간 & SSOT 시간</td>
+              <td><span class="badge-pill tag-mint">완료 (100%)</span></td>
+              <td>읍 단위 폐기 및 226개 군·구 선거구 독립 공간(`community_spaces`), 매 정시 AI 핫이슈 캐시</td>
+            </tr>
+            <tr>
+              <td><strong>v1.4.0 ~ v1.4.3</strong></td>
+              <td>Locality Validator v1.5.0 고도화</td>
+              <td><span class="badge-pill tag-mint">완료 (100%)</span></td>
+              <td>주체-객체 전도 결함 완치, 40여 개 경합 지자체 역색인 대조, Python-TS 100% 미러링</td>
+            </tr>
+            <tr>
+              <td><strong>v1.5.0 (현재)</strong></td>
+              <td><strong>Auth 프로비저닝 & v3.13 마스터 스키마</strong></td>
+              <td><span class="badge-pill tag-mint">완료 (100%)</span></td>
+              <td>네이버 소셜 인증, `useAuthGuard` 미인증 쓰기 인터셉터, 신규 유저 원자적 프로비저닝 트리거</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 6 (공모)</strong></td>
+              <td>8주 현장 실증 PoC & Top-Tier 진입</td>
+              <td><span class="badge-pill tag-purple">착수 준비</span></td>
+              <td>화성시 봉담 거점 상점 10곳 및 주민 100인 실거래 검증, 주문 누락 0건·폐기 30% 감축 실증</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. UI/UX 디자인 현황 -->
+    <section id="uiux" class="section-block">
+      <div class="section-badge">SECTION 06. UI/UX DESIGN SYSTEM</div>
+      <h2 class="section-heading">모바일 퍼스트 430px PWA & 5대 핵심 탭 실가동 UI/UX 쇼케이스</h2>
+      <p class="section-subtext">
+        한 손 조작에 최적화된 430px 모바일 뷰포트 내에 고대비 다크 테마와 글래스모피즘을 적용하여 정보 인지 속도를 극대화했습니다. 실제 가동 중인 5대 핵심 탭 및 B2B 상점주 인증 파이프라인의 15개 대표 화면을 통해 기술 구현 완성도를 증명합니다.
+      </p>
+
+      <!-- 5대 탭 핵심 설계 매트릭스 -->
+      <div class="pillar-grid" style="margin-bottom: 45px;">
+        <div class="pillar-box">
+          <div class="pillar-header">
+            <span class="pillar-num p-weather">TAB 01</span>
+            <span style="font-size:12px; color:var(--text-muted);">Living & Weather</span>
+          </div>
+          <div class="pillar-title">우리동네 (날씨·생활 안전)</div>
+          <div class="pillar-solution">
+            야후 기상 스타일의 60fps 무격자 위성 구름 레이더 미니 뷰포트, 분 단위 비구름 도착 1문장 AI 티커, 5대 환경변수 100점 러닝 지수 카드 및 팩트체크 로컬 뉴스 표출.
+          </div>
+        </div>
+
+        <div class="pillar-box">
+          <div class="pillar-header">
+            <span class="pillar-num p-comm">TAB 02</span>
+            <span style="font-size:12px; color:var(--text-muted);">Hyper-Local SNS</span>
+          </div>
+          <div class="pillar-title">동네마당 (226개 선거구 독립 공간)</div>
+          <div class="pillar-solution">
+            맘카페를 대체하는 실시간 군·구 독립 공론장 피드. 200자 제약 피드, 최대 10h TTL 시한부 번개모임, 매 정시 AI 핫이슈 3줄 요약 브리핑 카드 연동.
+          </div>
+        </div>
+
+        <div class="pillar-box">
+          <div class="pillar-header">
+            <span class="pillar-num p-shop">TAB 03</span>
+            <span style="font-size:12px; color:var(--text-muted);">Omni-Commerce</span>
+          </div>
+          <div class="pillar-title">골목커머스 (타임세일 & 공구)</div>
+          <div class="pillar-solution">
+            슈퍼마켓협동조합 연계 골목상권 DX. 실시간 잔여시간 타이머, 한정 재고 소진율 프로그레스 바, 상점주 번개 타임세일 간편 등록 모달 탑재.
+          </div>
+        </div>
+
+        <div class="pillar-box">
+          <div class="pillar-header">
+            <span class="pillar-num p-news">TAB 04 & 05</span>
+            <span style="font-size:12px; color:var(--text-muted);">Map & User Profile</span>
+          </div>
+          <div class="pillar-title">동네지도 & 내정보 (B2B 검증)</div>
+          <div class="pillar-solution">
+            VWorld & MapLibre 3km/5km 듀얼 반경, 실시간 ITS CCTV 및 도로 돌발 중첩, 네이버 소셜 ID 프로필 및 국세청 사업자 진위확인 API 연동.
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           TAB 01. 우리동네 (Living & Weather)
+           =================================================================== -->
+      <div class="uiux-tab-group">
+        <div class="uiux-group-header">
+          <div class="uiux-group-info">
+            <div class="uiux-group-tag-row">
+              <span class="pillar-num p-weather">TAB 01</span>
+              <span class="badge-pill tag-mint">기상방재 지능 · 대기환경 · 로컬뉴스</span>
+            </div>
+            <div class="uiux-group-title">
+              <i class="fa-solid fa-cloud-sun-rain" style="color:var(--brand-mint);"></i>
+              우리동네: 국지성 기상방재 & 생활안전환경 인텔리전스
+            </div>
+            <div class="uiux-group-desc">
+              기상청·VWorld·에어코리아 오픈 API를 결합하여 GPS 반경 5km 내의 국지성 기상이변을 60fps 위성 레이더로 직관화하고, 3대 페르소나별 선제 액션 플랜과 100점 러닝 지수를 실시간 산출합니다.
+            </div>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); text-align:right;">
+            <i class="fa-solid fa-mobile-screen"></i> 430px PWA 규격<br>
+            <span style="color:var(--brand-mint); font-weight:700;">3개 스크린 인터랙션</span>
+          </div>
+        </div>
+
+        <div class="uiux-screens-grid">
+          <!-- SCREEN 01 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_01.png', 'TAB 01: VWorld 위성 레이더 통합 기상 방재 뷰 & AI 기상 티커')">
+              <img src="pics/img_01.png" alt="TAB 01 VWorld 위성 레이더 통합 기상 뷰" loading="lazy"pics/스크린샷 2026-10-08 17.11.14.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-satellite"></i> SCREEN 01</span>
+              <div class="uiux-card-title">VWorld 위성 레이더 통합 기상 방재 뷰</div>
+              <div class="uiux-card-desc">
+                RainViewer & NASA GIBS 위성 레이더를 VWorld 표준 맵에 60fps 무격자 오버레이. 비구름 이동 ETA(도달 40분 전) 및 Explainable AI 4대 인과 요인 근거를 선제 제공합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#VWorld레이더</span>
+                <span class="uiux-chip">#ETA40분예보</span>
+                <span class="uiux-chip">#AI기상티커</span>
+                <span class="uiux-chip">#XAI근거제시</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 02 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_02.png', 'TAB 01: 생활안전환경 지수 & 5대 변수 종합 러닝 지수 (80/100점)')">
+              <img src="pics/img_02.png" alt="TAB 01 생활안전환경 지수 및 러닝 지수" loading="lazy"pics/스크린샷 2026-10-08 17.11.43.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-person-running"></i> SCREEN 02</span>
+              <div class="uiux-card-title">3대 페르소나 액션 플랜 & 러닝 지수</div>
+              <div class="uiux-card-desc">
+                외출 주민·운전자·상점주 3대 페르소나별 맞춤형 기상 행동 요령 제시. 에어코리아 봉담 측정소 대기질과 온·습도·바람을 통합 연산한 100점 러닝 지수(80점 최적)를 표출합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#3대페르소나액션</span>
+                <span class="uiux-chip">#에어코리아실시간</span>
+                <span class="uiux-chip">#러닝지수80점</span>
+                <span class="uiux-chip">#대기질정밀분석</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 03 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_03.png', 'TAB 01: 3단 행정구역 필터 & LLM 기반 AI 핵심 팩트 3줄 요약 로컬 뉴스')">
+              <img src="pics/img_03.png" alt="TAB 01 로컬 뉴스 피드 및 AI 핵심 팩트 요약" loading="lazy"pics/스크린샷 2026-10-08 17.12.36.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-newspaper"></i> SCREEN 03</span>
+              <div class="uiux-card-title">행정구역 3단 필터 & AI 팩트 3줄 요약</div>
+              <div class="uiux-card-desc">
+                중앙 포털에서 묻히는 효행구·화성시 기초지자체 밀착 뉴스를 큐레이션. 생성형 AI가 긴 보도자료를 핵심 팩트 3줄 불릿으로 즉시 요약하고 원문 링크를 투명하게 연동합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#행정구역3단필터</span>
+                <span class="uiux-chip">#AI팩트3줄요약</span>
+                <span class="uiux-chip">#LocalityValidator</span>
+                <span class="uiux-chip">#원문링크연동</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           TAB 02. 동네마당 (Hyper-Local SNS)
+           =================================================================== -->
+      <div class="uiux-tab-group">
+        <div class="uiux-group-header">
+          <div class="uiux-group-info">
+            <div class="uiux-group-tag-row">
+              <span class="pillar-num p-comm">TAB 02</span>
+              <span class="badge-pill tag-purple">선거구 독립 공론장 · 시한부 번개 · 정시 AI 브리핑</span>
+            </div>
+            <div class="uiux-group-title">
+              <i class="fa-solid fa-comments" style="color:var(--brand-amber);"></i>
+              동네마당: 226개 선거구 독립 자치 공론장 & 시한부 소셜 개더링
+            </div>
+            <div class="uiux-group-desc">
+              폐쇄적 맘카페의 독점 구조를 혁파하는 군·구 독립 공론장입니다. 200자 제약 피드, 최대 10h TTL 시한부 번개모임 개설 폼, 정시 자동 생성되는 동네 핫이슈 AI 브리핑을 제공합니다.
+            </div>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); text-align:right;">
+            <i class="fa-solid fa-mobile-screen"></i> 430px PWA 규격<br>
+            <span style="color:var(--brand-amber); font-weight:700;">4개 스크린 인터랙션</span>
+          </div>
+        </div>
+
+        <div class="uiux-screens-grid" style="grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));">
+          <!-- SCREEN 04 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_04.png', 'TAB 02: 효행구 자치마당 메인 피드 & OpenGraph 메타 자동 파싱 웹 카드')">
+              <img src="pics/img_04.png" alt="TAB 02 동네마당 메인 피드 및 작성기" loading="lazy"pics/스크린샷 2026-10-08 17.12.58.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-bullhorn"></i> SCREEN 04</span>
+              <div class="uiux-card-title">효행구 자치마당 피드 & 웹 카드 생성</div>
+              <div class="uiux-card-desc">
+                200자 제약 컴팩트 피드, 해시태그/멘션 입력 지원, 링크 첨부 시 OpenGraph 메타를 비동기 파싱하여 웹 프리뷰 카드를 자동 렌더링하며 인증상점 뱃지를 부여합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#200자제약피드</span>
+                <span class="uiux-chip">#OG자동파싱</span>
+                <span class="uiux-chip">#인증상점뱃지</span>
+                <span class="uiux-chip">#소모임카드연동</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 05 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_05.png', 'TAB 02: 동네마당 소셜 개더링 모임 유형 선택 바텀시트 모달')">
+              <img src="pics/img_05.png" alt="TAB 02 소셜 개더링 유형 선택 모달" loading="lazy"pics/스크린샷 2026-10-08 17.13.22.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-bolt"></i> SCREEN 05</span>
+              <div class="uiux-card-title">소셜 개더링 모임 형태 분기 모달</div>
+              <div class="uiux-card-desc">
+                주민 참여 목적에 맞추어 1) 최대 10시간 이내 자동 소멸하는 '즉석 번개 모임'과 2) 취미·운동 등 8대 카테고리 지속형 '그룹 개설'을 원클릭으로 선택하는 바텀시트 UI.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#최대10hTTL</span>
+                <span class="uiux-chip">#즉석번개모임</span>
+                <span class="uiux-chip">#지속형그룹개설</span>
+                <span class="uiux-chip">#바텀시트UI</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 06 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_06.png', 'TAB 02: 번개 모임 세부 설정 (시간 피커, 핀포인트 지도, 2-Way 정원 스텝퍼)')">
+              <img src="pics/img_06.png" alt="TAB 02 번개 모임 세부 설정 모달" loading="lazy"pics/스크린샷 2026-10-08 17.13.39.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-sliders"></i> SCREEN 06</span>
+              <div class="uiux-card-title">번개 모임 세부 설정 & 지도 핀포인트</div>
+              <div class="uiux-card-desc">
+                '+1시간 뒤', '+2시간 뒤' 원터치 시각 설정, 핀포인트 지도 좌표 연동 약속 장소 입력, 정원 제한형 vs 무제한형 2-Way 선택 및 스텝퍼 기반 정원 제어 기능을 지원합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#원클릭시간피커</span>
+                <span class="uiux-chip">#핀포인트지도연동</span>
+                <span class="uiux-chip">#2Way정원설정</span>
+                <span class="uiux-chip">#스텝퍼UI</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 07 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_07.png', 'TAB 02: 매 정시 자동 갱신되는 실시간 동네 트렌드 AI 핫이슈 3줄 브리핑 카드')">
+              <img src="pics/img_07.png" alt="TAB 02 실시간 동네 트렌드 AI 핫이슈 브리핑" loading="lazy"pics/스크린샷 2026-10-08 17.13.56.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> SCREEN 07</span>
+              <div class="uiux-card-title">매 정시 AI 핫이슈 자동 요약 브리핑</div>
+              <div class="uiux-card-desc">
+                선거구 주민 피드와 댓글 데이터를 백그라운드 LLM이 매 정시 분석하여, 가장 뜨거운 동네 화제와 관심 상품/정보를 3줄 카드 형태로 요약 브리핑합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#매정시자동갱신</span>
+                <span class="uiux-chip">#LLM트렌드분석</span>
+                <span class="uiux-chip">#3줄브리핑카드</span>
+                <span class="uiux-chip">#효행구실시간</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           TAB 03. 골목커머스 (Omni-Commerce)
+           =================================================================== -->
+      <div class="uiux-tab-group">
+        <div class="uiux-group-header">
+          <div class="uiux-group-info">
+            <div class="uiux-group-tag-row">
+              <span class="pillar-num p-shop">TAB 03</span>
+              <span class="badge-pill tag-blue">골목상권 DX · 타임세일 · 주민 공동구매</span>
+            </div>
+            <div class="uiux-group-title">
+              <i class="fa-solid fa-store" style="color:var(--brand-coral);"></i>
+              골목커머스: 슈퍼마켓협동조합 연계 타임세일 & 공동구매 딜
+            </div>
+            <div class="uiux-group-desc">
+              수퍼마켓협동조합 및 골목 상인과 직거래하는 로컬 특가 플랫폼입니다. 실시간 잔여시간 타이머, 원자적 재고 프로그레스 바, 즉시 신청 스텝퍼, 상점주 번개 타임세일 등록 폼을 지원합니다.
+            </div>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); text-align:right;">
+            <i class="fa-solid fa-mobile-screen"></i> 430px PWA 규격<br>
+            <span style="color:var(--brand-coral); font-weight:700;">3개 스크린 인터랙션</span>
+          </div>
+        </div>
+
+        <div class="uiux-screens-grid">
+          <!-- SCREEN 08 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_08.png', 'TAB 03: 실시간 타임세일 카운트다운 타이머 & 재고 프로그레스 바 & 공동구매 펀딩 뷰')">
+              <img src="pics/img_08.png" alt="TAB 03 골목 커머스 타임세일 및 공구 메인" loading="lazy"pics/스크린샷 2026-10-08 17.14.12.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-tag"></i> SCREEN 08</span>
+              <div class="uiux-card-title">실시간 타임세일 & 공동구매 딜 메인</div>
+              <div class="uiux-card-desc">
+                02:46:17 잔여시간 실시간 카운트다운, 20개 한정 재고 소진율 프로그레스 바, 원클릭 수량 스텝퍼 및 선착순 주문 내역 아코디언을 단일 뷰포트에 집약했습니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#카운트다운타이머</span>
+                <span class="uiux-chip">#재고프로그레스바</span>
+                <span class="uiux-chip">#즉시신청스텝퍼</span>
+                <span class="uiux-chip">#공동구매D-5</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 09 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_09.png', 'TAB 03: 골목상권 상품 등록 방식 선택 모달 (마감 임박 타임세일 vs 이웃 공동구매)')">
+              <img src="pics/img_09.png" alt="TAB 03 상품 등록 방식 선택 모달" loading="lazy"pics/스크린샷 2026-10-08 17.14.47.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-boxes-packing"></i> SCREEN 09</span>
+              <div class="uiux-card-title">골목상권 상품 등록 방식 선택 모달</div>
+              <div class="uiux-card-desc">
+                상점주의 판매 목적에 따라 '당일 잔여 재고 파격 할인(타임세일)'과 '최소 수량 모아 도매가 직거래 공급(공동구매 펀딩)'으로 등록 분기를 나눈 직관적 안내 모달.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#상점주전용모달</span>
+                <span class="uiux-chip">#당일잔여재고할인</span>
+                <span class="uiux-chip">#대량직거래펀딩</span>
+                <span class="uiux-chip">#원클릭등록분기</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 10 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_10.png', 'TAB 03: 번개 타임세일 실시간 등록 폼 (유통기한 임박 사유, 특가, 타임어택 시간 설정)')">
+              <img src="pics/img_10.png" alt="TAB 03 번개 타임세일 등록 폼 모달" loading="lazy"pics/스크린샷 2026-10-08 17.15.11.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-stopwatch-20"></i> SCREEN 10</span>
+              <div class="uiux-card-title">번개 타임세일 실시간 등록 폼</div>
+              <div class="uiux-card-desc">
+                유통기한 임박/당일 떨이 사유 태그 원터치 선택, 정상가 및 타임세일 특가 입력, 한정 준비 수량, 마감 시간(타임어택: 4시간 후 등) 설정 및 실물 사진 업로드를 지원합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#사유태그입력</span>
+                <span class="uiux-chip">#타임어택4h</span>
+                <span class="uiux-chip">#즉시완판연동</span>
+                <span class="uiux-chip">#상점주승격권한</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           TAB 04. 동네지도 (Spatial Map)
+           =================================================================== -->
+      <div class="uiux-tab-group">
+        <div class="uiux-group-header">
+          <div class="uiux-group-info">
+            <div class="uiux-group-tag-row">
+              <span class="pillar-num p-news">TAB 04</span>
+              <span class="badge-pill tag-blue">VWorld · 3km/5km 듀얼 반경 · ITS 실시간 CCTV & 돌발</span>
+            </div>
+            <div class="uiux-group-title">
+              <i class="fa-solid fa-map-location-dot" style="color:var(--brand-blue);"></i>
+              동네지도: VWorld & ITS 국가교통망 연계 반응형 공간 인텔리전스
+            </div>
+            <div class="uiux-group-desc">
+              국토교통부 VWorld 및 국가교통정보센터(ITS) API를 실시간 연계하여 반경 3km 주유 생활권(초록)과 5km 광역망(파랑) 듀얼 원을 표출하고, 실시간 교통 돌발 및 CCTV 카메라를 지도에 중첩합니다.
+            </div>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); text-align:right;">
+            <i class="fa-solid fa-mobile-screen"></i> 430px PWA 규격<br>
+            <span style="color:var(--brand-blue); font-weight:700;">3개 스크린 인터랙션</span>
+          </div>
+        </div>
+
+        <div class="uiux-screens-grid">
+          <!-- SCREEN 11 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_11.png', 'TAB 04: 공간 LOD 엔진 기반 3km 주유/5km 교통 듀얼 반경 원 & 실시간 ITS CCTV 카메라 핀')">
+              <img src="pics/img_11.png" alt="TAB 04 동네지도 3km 5km 듀얼 반경 및 POI" loading="lazy"pics/스크린샷 2026-10-08 17.15.43.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-compass"></i> SCREEN 11</span>
+              <div class="uiux-card-title">공간 LOD & 3km/5km 듀얼 반경 원</div>
+              <div class="uiux-card-desc">
+                VWorld & MapLibre 기반 3km 주유 생활권(초록 원)과 5km 교통 광역망(파랑 원) 시각화. 오피넷 최저가 주유소 핀([1위] 1,797원), 공구 상점 핀, ITS 실시간 CCTV 핀을 LOD 엔진으로 최적 분기합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#VWorld국토부맵</span>
+                <span class="uiux-chip">#3km5km듀얼반경</span>
+                <span class="uiux-chip">#오피넷최저가</span>
+                <span class="uiux-chip">#ITSCCTV핀</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 12 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_12.png', 'TAB 04: 국가교통정보센터(ITS) & 경찰청 연계 실시간 교통 돌발 지도 (공사 26건 시각화)')">
+              <img src="pics/img_12.png" alt="TAB 04 실시간 돌발 교통 인텔리전스" loading="lazy"pics/스크린샷 2026-10-08 17.16.26.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-triangle-exclamation"></i> SCREEN 12</span>
+              <div class="uiux-card-title">ITS 실시간 돌발 교통 인텔리전스</div>
+              <div class="uiux-card-desc">
+                국가교통정보센터(ITS) 및 경찰청 데이터를 연동하여 서울 강남권 5km 반경 내 실시간 돌발 상황(공사 26건, 사고, 통제 등)을 카테고리별 핀으로 지도 위에 직관적으로 표출합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#국가교통정보센터</span>
+                <span class="uiux-chip">#실시간공사26건</span>
+                <span class="uiux-chip">#경찰청연계</span>
+                <span class="uiux-chip">#반경5km필터링</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 13 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_13.png', 'TAB 04: 도로 돌발 정보 상세 팝업 바텀시트 (강변북로 차로 통제, 내 위치 거리 4.6km)')">
+              <img src="pics/img_13.png" alt="TAB 04 도로 돌발 정보 상세 바텀시트" loading="lazy"pics/스크린샷 2026-10-08 17.16.38.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-road-barrier"></i> SCREEN 13</span>
+              <div class="uiux-card-title">도로 돌발 정보 상세 팝업 바텀시트</div>
+              <div class="uiux-card-desc">
+                공사 구간(강변북로 두모교 1차로 부분통제), 차로 차단 현황, 발생 및 종료 예정 시각, 사용자 현 위치로부터의 직선 거리(4.6km)를 명확히 제시하여 운전자 사전 우회를 지원합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#차로통제알림</span>
+                <span class="uiux-chip">#내위치거리4.6km</span>
+                <span class="uiux-chip">#우회경로가이드</span>
+                <span class="uiux-chip">#바텀시트UI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           TAB 05 & B2B 인프라. 내정보 Hub & 상점주 국세청 인증
+           =================================================================== -->
+      <div class="uiux-tab-group">
+        <div class="uiux-group-header">
+          <div class="uiux-group-info">
+            <div class="uiux-group-tag-row">
+              <span class="pillar-num p-shop">TAB 05</span>
+              <span class="badge-pill tag-purple">네이버 소셜 인증 · 상점주 대시보드 · 국세청 진위확인</span>
+            </div>
+            <div class="uiux-group-title">
+              <i class="fa-solid fa-id-card-clip" style="color:var(--brand-mint);"></i>
+              내정보 Hub & B2B 상점주 공식 인증 파이프라인
+            </div>
+            <div class="uiux-group-desc">
+              네이버 소셜 ID 프로필 및 AI 음성 브리핑 쿼터 관리 허브이며, 전자상거래법 제13조를 준수하기 위해 국세청 공공데이터 포털 진위확인 API와 실시간 통신하여 상점주 권한을 원자적으로 부여합니다.
+            </div>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); text-align:right;">
+            <i class="fa-solid fa-mobile-screen"></i> 430px PWA 규격<br>
+            <span style="color:var(--brand-mint); font-weight:700;">2개 스크린 인터랙션</span>
+          </div>
+        </div>
+
+        <div class="uiux-screens-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+          <!-- SCREEN 14 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_14.png', 'TAB 05: 내정보 프로필 허브 (네이버 연동, AI 음성 브리핑 쿼터 게이지, 상점주 대시보드)')">
+              <img src="pics/img_14.png" alt="TAB 05 내정보 프로필 및 상점주 대시보드 허브" loading="lazy"pics/스크린샷 2026-10-08 17.17.01.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-user-shield"></i> SCREEN 14</span>
+              <div class="uiux-card-title">내정보 프로필 & 상점주 대시보드 Hub</div>
+              <div class="uiux-card-desc">
+                네이버 소셜 연동 계정 프로필, 상점주(모의) 전환 토글, AI 음성 브리핑 일일 쿼터 게이지(45s/180s), 1:1 실시간 쪽지함, 상점주 대시보드 및 유저 작성글·댓글 통합 관리 기능을 제공합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#네이버소셜인증</span>
+                <span class="uiux-chip">#AI음성브리핑쿼터</span>
+                <span class="uiux-chip">#1대1실시간쪽지</span>
+                <span class="uiux-chip">#상점주모의전환</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 15 -->
+          <div class="uiux-screen-card">
+            <div class="uiux-mockup" onclick="openLightbox('pics/img_15.png', 'B2B 인프라: 국세청 공공데이터 포털 진위확인 API 실시간 연동 상점주 공식 인증 신청 폼')">
+              <img src="pics/img_15.png" alt="국세청 공공데이터 포털 진위확인 상점주 인증 모달" loading="lazy"pics/스크린샷 2026-10-08 17.17.32.png';">
+              <div class="zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> 확대보기</div>
+            </div>
+            <div class="uiux-card-meta">
+              <span class="uiux-card-badge"><i class="fa-solid fa-building-circle-check"></i> SCREEN 15</span>
+              <div class="uiux-card-title">국세청 공공데이터 연계 상점주 공식 인증</div>
+              <div class="uiux-card-desc">
+                전자상거래법 제13조 준수를 위해 사업자번호(10자리), 상호명, 대표자 성명, 개업일자, 도로명 주소를 입력받아 국세청 공공데이터 진위확인 API와 실시간 대조 검증 후 상점주 권한을 부여합니다.
+              </div>
+              <div class="uiux-card-chips">
+                <span class="uiux-chip">#국세청진위확인API</span>
+                <span class="uiux-chip">#전자상거래법제13조</span>
+                <span class="uiux-chip">#실시간사업자검증</span>
+                <span class="uiux-chip">#상점주권한부여</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. 핵심서비스의 페르소나별 서비스 활용 시나리오 -->
+    <section id="persona" class="section-block">
+      <div class="section-badge">SECTION 07. PERSONA USE CASES</div>
+      <h2 class="section-heading">4대 핵심 페르소나별 실생활 활용 시나리오</h2>
+      <p class="section-subtext">
+        골목 상점주, 퇴근길 러너, 지자체 공무원, 전입 1인 가구 청년 등 실제 동네를 살아가는 페르소나들이 로컬리를 통해 어떤 실질적 효용을 얻는지 증명합니다.
+      </p>
+
+      <div class="persona-grid">
+        <!-- 페르소나 1 -->
+        <div class="persona-card">
+          <div class="persona-header">
+            <div class="persona-avatar"><i class="fa-solid fa-store"></i></div>
+            <div class="persona-meta">
+              <h4>박영진 점주 (54세)</h4>
+              <p>화성시 봉담읍 과일·청과 상점 운영 소상공인</p>
+            </div>
+          </div>
+          <div class="persona-flow">
+            <strong>시나리오:</strong> 비가 내리기 시작해 저녁 도보 손님이 끊기자, 당일 폐기 위기에 처한 복숭아 10박스를 <strong>'10초 마감 타임세일'</strong>로 피드에
+            등록합니다. 주민들이 댓글로 주문하자 <strong>AI가 수량과 픽업시간을 자동 장부로 정형화</strong>하고 재고를 원자적으로 차감합니다.
+          </div>
+          <div class="persona-value">
+            <i class="fa-solid fa-check"></i> 배달앱 15% 수수료 0원, 수기 장부 대조 피로 종결, 당일 폐기 손실 100% 방어
+          </div>
+        </div>
+
+        <!-- 페르소나 2 -->
+        <div class="persona-card">
+          <div class="persona-header">
+            <div class="persona-avatar"><i class="fa-solid fa-person-running"></i></div>
+            <div class="persona-meta">
+              <h4>이수민 대리 (31세)</h4>
+              <p>봉담 신도시 거주 4년 차 직장인 & 야외 러너</p>
+            </div>
+          </div>
+          <div class="persona-flow">
+            <strong>시나리오:</strong> 퇴근 후 호수공원 러닝을 위해 앱을 켭니다. <strong>'15분 뒤 봉담읍 20mm 폭우 도착'</strong> 1문장 AI 티커와
+            <strong>러닝 지수 38점(주의)</strong>을 확인하고 즉시 실내 트레드밀로 일정을 변경하여 도심 하천 고립 위험을 완벽히 피합니다.
+          </div>
+          <div class="persona-value">
+            <i class="fa-solid fa-check"></i> 버스 도착처럼 분 단위 침수 시각 사전 인지, 5대 환경변수 기반 운동 부상 예방
+          </div>
+        </div>
+
+        <!-- 페르소나 3 -->
+        <div class="persona-card">
+          <div class="persona-header">
+            <div class="persona-avatar"><i class="fa-solid fa-building-columns"></i></div>
+            <div class="persona-meta">
+              <h4>김민준 주무관 (38세)</h4>
+              <p>화성특례시청 자치행정과 로컬 홍보 담당</p>
+            </div>
+          </div>
+          <div class="persona-flow">
+            <strong>시나리오:</strong> 화성시 청년 월세 지원 및 바우처 조례 보도자료를 배포합니다. 중앙 포털에서는 인근 수원·용인 기사에 밀려 묻혔으나, 로컬리의
+            <strong>Locality Validator v1.5.0</strong>을 통해 관할 효행구·화성시 주민 피드 3단 탭에 <strong>단일 대표 기사로 100% 노출</strong>됩니다.
+          </div>
+          <div class="persona-value">
+            <i class="fa-solid fa-check"></i> 관제 앱 개발 혈세 낭비 없이 226개 선거구 주민에게 핵심 정책 도달률 400% 증대
+          </div>
+        </div>
+
+        <!-- 페르소나 4 -->
+        <div class="persona-card">
+          <div class="persona-header">
+            <div class="persona-avatar"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="persona-meta">
+              <h4>정우진 대학생 (24세)</h4>
+              <p>봉담 협성대 인근 1인 가구 자취생</p>
+            </div>
+          </div>
+          <div class="persona-flow">
+            <strong>시나리오:</strong> 맘카페 가입 승인이 거절되어 동네 정보를 얻지 못하던 중, 로컬리 동네마당에 접속합니다. <strong>선거구 독립 공간</strong>에서
+            <strong>'6시간 TTL 자취생 반찬 나눔 번개'</strong>에 참여하고, 매 정시 AI가 3줄로 브리핑해 주는 동네 핫이슈를 통해 지역 사회에 안착합니다.
+          </div>
+          <div class="persona-value">
+            <i class="fa-solid fa-check"></i> 폐쇄적 맘카페 장벽 탈피, 1인 가구 고립감 해소 및 실시간 동네 연결망 형성
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. 유튜브 데모 영상 & 특허 증빙관 -->
+    <section id="demo" class="section-block">
+      <div class="section-badge">SECTION 08. VIDEO DEMO & PATENT PROOF</div>
+      <h2 class="section-heading">유튜브 라이브 데모 영상 및 정부 공인 특허 증빙</h2>
+      <p class="section-subtext">
+        430px 모바일 PWA 환경에서 실가동되는 로컬리의 4대 핵심 서비스 시연 영상과, 지식재산처(특허청) 공식 출원사실증명원을 투명하게 공개합니다.
+      </p>
+
+      <!-- 유튜브 영상 임베드 -->
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/WFQNHl-IgSI?rel=0&modestbranding=1" title="로컬리(Locally) 공식 데모 시연 영상"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <!-- 특허 증빙 배너 -->
+      <div class="patent-banner">
+        <div class="patent-icon-box">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <div class="patent-details">
+          <h3>정부 공인 특허 제10-2026-0182139호 출원 완료 (2026.09.22)</h3>
+          <p>
+            <strong>발명의 명칭:</strong> 비정형 자연어 인터페이스 기반의 언어 모델을 이용한 실시간 상거래 주문 정형화 및 원자적 동시성 재고 제어 시스템, 그 동작 방법, 컴퓨터 판독 가능
+            기록매체 및 컴퓨터 프로그램
+          </p>
+          <div class="patent-meta-tags">
+            <span><i class="fa-solid fa-certificate"></i> 출원번호: 10-2026-0182139</span>
+            <span><i class="fa-solid fa-calendar-check"></i> 우선일: 2026년 09월 22일</span>
+            <span><i class="fa-solid fa-user-check"></i> 발명자/출원인: 김 영</span>
+            <span><i class="fa-solid fa-scale-balanced"></i> 주무관청: 특허청(지식재산처)</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 30px;">
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="page-footer">
+    <div class="container" style="padding:0;">
+      <p style="margin-bottom:8px;">
+        <strong>LOCALLY (로컬리)</strong> — 하이퍼로컬 AI 라이프스타일 포털 프로젝트 | 김 영
+      </p>
+      <p style="font-size:12px; color:#64748B;">
+      </p>
+      <p style="margin-top:10px;">
+        기준 거점: 경기도 화성시 효행구 봉담 (PoC 8주 현장 실증 거점) | 226개 기초지자체 마스터 완비
+      </p>
+    </div>
+  </footer>
+    </main>
+  </div>
+
+  <!-- 이미지 확대보기 라이트박스 모달 -->
+  <div id="imageLightbox" class="lightbox-modal" onclick="closeLightbox(event)">
+    <div class="lightbox-wrap">
+      <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="화면 확대">
+      <div id="lightboxCap" class="lightbox-cap"></div>
+    </div>
+  </div>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', securityLevel: 'loose' });
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebarNav');
+      const overlay = document.getElementById('sidebarOverlay');
+      if (!sidebar) return;
+      sidebar.classList.toggle('open');
+      if (overlay) overlay.classList.toggle('active');
+    }
+
+    function openLightbox(src, caption) {
+      const modal = document.getElementById('imageLightbox');
+      const img = document.getElementById('lightboxImg');
+      const cap = document.getElementById('lightboxCap');
+      if (!modal || !img || !cap) return;
+      img.src = src;
+      cap.textContent = caption || '';
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (e && e.target && e.target.id === 'lightboxImg') return;
+      const modal = document.getElementById('imageLightbox');
+      if (!modal) return;
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        const sidebar = document.getElementById('sidebarNav');
+        const overlay = document.getElementById('sidebarOverlay');
+        if (sidebar && sidebar.classList.contains('open')) {
+          sidebar.classList.remove('open');
+          if (overlay) overlay.classList.remove('active');
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

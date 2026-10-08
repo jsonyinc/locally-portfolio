@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Locally - 문제 정의 및 기존 방식과의 차별성 (Portfolio Section 1)</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --brand-mint: #00E5A3;
+      --brand-dark: #0D1117;
+      --card-bg: #161B22;
+      --border-color: #30363D;
+      --text-main: #F0F6FC;
+      --text-muted: #8B949E;
+      --accent-coral: #FF5A79;
+      --accent-blue: #388BFD;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--brand-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    .section-badge {
+      display: inline-block;
+      background: rgba(0, 229, 163, 0.15);
+      color: var(--brand-mint);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      border: 1px solid var(--brand-mint);
+    }
+
+    h1.title {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 16px;
+      color: #FFFFFF;
+    }
+
+    p.lead-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+    }
+
+    /* 4대 핵심 축 그리드 카드 */
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+
+    .pillar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 22px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--brand-mint);
+    }
+
+    .pillar-tag {
+      font-size: 12px;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .tag-news { background: rgba(56, 139, 253, 0.2); color: var(--accent-blue); }
+    .tag-weather { background: rgba(0, 229, 163, 0.2); color: var(--brand-mint); }
+    .tag-community { background: rgba(255, 168, 0, 0.2); color: #FFA800; }
+    .tag-commerce { background: rgba(255, 90, 121, 0.2); color: var(--accent-coral); }
+
+    .pillar-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #FFFFFF;
+    }
+
+    .pillar-text {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* AS-IS vs TO-BE 비교 테이블 */
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .table-header-title {
+      padding: 18px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      background: #1F242C;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    table.diff-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    table.diff-table th, table.diff-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    table.diff-table th {
+      background: #191E26;
+      color: var(--text-muted);
+      font-weight: 600;
+      width: 18%;
+    }
+
+    table.diff-table td.asis {
+      color: #FF7B72;
+      width: 38%;
+      background: rgba(255, 123, 114, 0.03);
+    }
+
+    table.diff-table td.tobe {
+      color: var(--brand-mint);
+      width: 44%;
+      font-weight: 500;
+      background: rgba(0, 229, 163, 0.03);
+    }
+
+    /* 다이어그램 영역 */
+    .diagram-wrapper {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 26px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .diagram-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    /* 특허 및 실증 Moat 배너 */
+    .moat-banner {
+      background: linear-gradient(135deg, rgba(0, 229, 163, 0.1) 0%, rgba(56, 139, 253, 0.1) 100%);
+      border: 1px solid var(--brand-mint);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .moat-badge {
+      display: inline-block;
+      background: var(--brand-mint);
+      color: var(--brand-dark);
+      font-weight: 800;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      align-self: flex-start;
+    }
+
+    .moat-content h4 {
+      font-size: 16px;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+    }
+
+    .moat-content p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      table.diff-table th, table.diff-table td { padding: 10px; font-size: 12px; }
+      h1.title { font-size: 22px; }
+    }
+  </style>
+
+  <!-- FontAwesome & Pretendard -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    /* 상단/하단 포트폴리오 복귀 네비게이션 */
+    .top-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(22, 27, 34, 0.95);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 18px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .back-hub-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(0, 229, 163, 0.12);
+      border: 1px solid var(--brand-mint);
+      color: var(--brand-mint);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 8px;
+      transition: all 0.22s ease;
+    }
+
+    .back-hub-btn:hover {
+      background: var(--brand-mint);
+      color: #0D1117;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 229, 163, 0.35);
+    }
+
+    .nav-doc-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .doc-badge-pill {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(56, 139, 253, 0.15);
+      color: #388BFD;
+      border: 1px solid rgba(56, 139, 253, 0.3);
+    }
+
+    .doc-title-mini {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .doc-pager {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pager-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 11px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .pager-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      border-color: #8B949E;
+    }
+
+    /* 하단 복귀 & 페이징 카드 */
+    .bottom-nav-card {
+      margin-top: 40px;
+      padding: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .bottom-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--brand-mint);
+      color: #0D1117;
+      text-decoration: none;
+      font-size: 14.5px;
+      font-weight: 800;
+      padding: 12px 24px;
+      border-radius: 8px;
+      transition: all 0.22s ease;
+    }
+
+    .bottom-back-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 229, 163, 0.35);
+    }
+  </style>
+
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- 상단 복귀 네비게이션 바 -->
+    <div class="top-nav-bar">
+      <a href="00_로컬리 포트폴리오.html" class="back-hub-btn">
+        <i class="fa-solid fa-house-chimney"></i>
+        <span>← 전체 포트폴리오 (Enterprise Proof Hub)로 돌아가기</span>
+      </a>
+      <div class="nav-doc-meta">
+        <span class="doc-badge-pill">DOC 01</span>
+        <span class="doc-title-mini">문제 정의 & 기존 차별성</span>
+        <div class="doc-pager">
+          <a href="02_아이디어를 어떻게 구현할 계획인가요.html" class="pager-btn" title="다음 문서">02. 구현 계획 <i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 상단 헤더 -->
+    <div class="section-badge">PORTFOLIO SECTION 1</div>
+    <h1 class="title">어떤 문제를 해결하고자 하며,<br>기존 방식과 무엇이 다른가요?</h1>
+    <p class="lead-desc">로컬리(Locally)는 중앙 집중형 포털과 폐쇄적 소통망이 해결하지 못한 4대 동네 생활 결핍을 하이퍼로컬 AI 아키텍처로 혁신합니다.</p>
+
+    <!-- 4대 핵심 축 카드 그리드 -->
+    <div class="pillar-grid">
+      <div class="pillar-card">
+        <span class="pillar-tag tag-news">1. 동네 뉴스</span>
+        <div class="pillar-title">지자체 중심 분산 큐레이션</div>
+        <div class="pillar-text">중앙 포털의 거시 뉴스 도배를 종결하고, Locality Validator v1.5.0 기반의 군·구 단위 순수 자치 행정 뉴스를 최신순 직배송합니다.</div>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-tag tag-weather">2. 동네 기상</span>
+        <div class="pillar-title">국지성 재난 도착시간 예보</div>
+        <div class="pillar-text">버스 도착시간처럼 동네별 게릴라성 폭우·침수 도착 시각을 60fps 무격자 위성 레이더와 1문장 AI 행동 티커로 사전 전파합니다.</div>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-tag tag-community">3. 동네 마당</span>
+        <div class="pillar-title">226개 선거구 독립 AI 소통</div>
+        <div class="pillar-text">올드한 맘카페의 폐쇄성과 여론 왜곡을 탈피하여, 공직선거구 기준 군·구 단위로 공간 격리된 최적화 실시간 열린 마당을 제공합니다.</div>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-tag tag-commerce">4. 동네 커머스</span>
+        <div class="pillar-title">골목상권 댓글 타임세일 자동화</div>
+        <div class="pillar-text">새벽배송 잠식에 맞서 오픈채팅 공구로 버티던 상인들을 위해, 비정형 댓글 SLM 파싱 및 원자적 재고 락(특허 출원)으로 수수료 0% 마감세일을 자동 체결합니다.</div>
+      </div>
+    </div>
+
+    <!-- AS-IS vs TO-BE 비교 테이블 -->
+    <div class="table-container">
+      <div class="table-header-title">기존 방식(AS-IS)의 한계와 로컬리 혁신 대안(TO-BE) 비교 매트릭스</div>
+      <table class="diff-table">
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>기존 방식 (AS-IS 한계)</th>
+            <th>로컬리 방식 (TO-BE 혁신)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>동네 뉴스</th>
+            <td class="asis">네이버 중심 전국 거시 뉴스 편중으로 내 동네 행정 뉴스가 90% 이상 누락되며 블로그·단톡방 수동 검색 불가피</td>
+            <td class="tobe">3단 군·구 선거구 탭 일원화 및 주체-객체 전도 방어 엔진(Locality Validator v1.5.0)으로 순수 지역 기사 0ms 쾌속 큐레이션</td>
+          </tr>
+          <tr>
+            <th>동네 기상</th>
+            <td class="asis">광역 시·군 단위 기상 통보로 1~2km 반경의 국지성 게릴라 폭우 및 도심 하천 침수 시각을 전혀 예측하지 못함</td>
+            <td class="tobe">대중교통 도착시간처럼 비구름 도착 골든타임을 안내하는 60fps 무격자 위성 구름 레이더 및 초단기 시계열 연동 1문장 AI 행동 티커</td>
+          </tr>
+          <tr>
+            <th>동네 마당</th>
+            <td class="asis">2000년대 웹 카페 아키텍처에 갇힌 맘카페 중심의 낙후된 UI/UX, 상업 광고 도배 및 폐쇄적 친목으로 인한 소통 단절</td>
+            <td class="tobe">전국 226개 자치구 선거구 마스터(community_spaces) 기반의 독립 실시간 공간 SNS 및 6시간 TTL 번개, 정시 AI 핫이슈 브리핑</td>
+          </tr>
+          <tr>
+            <th>동네 커머스</th>
+            <td class="asis">대형 플랫폼의 15% 수수료 부담과 오픈채팅 공구 운영 시 쏟아지는 비정형 댓글의 수기 장부 대조 피로(8% 이상 주문 누락 발생)</td>
+            <td class="tobe">특허 제10-2026-0182139호 기반: 비정형 댓글 주문 SLM 실시간 정형화 및 PostgreSQL 배타적 행 잠금(FOR UPDATE) 원자적 재고 자동 차감</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 해결 구조 흐름도 다이어그램 -->
+    <div class="diagram-wrapper">
+      <div class="diagram-title">로컬리 하이퍼로컬 AI 서비스 라이프사이클 (Closed-Loop)</div>
+      <div class="mermaid">
+flowchart LR
+    subgraph S1 ["1. 지역 감지 & 큐레이션"]
+        direction TB
+        A1["GPS & 공간 RPC 자동 측위"]
+        A2["군·구 선거구 독립 공간 매핑"]
+        A3["Locality Validator v1.5.0 순수 로컬 뉴스"]
+        A1 --> A2 --> A3
+    end
+
+    subgraph S2 ["2. 초지역 안전망 가동"]
+        direction TB
+        B1["NASA & 기상청 레이더 수신"]
+        B2["60fps 무격자 래스터 합성"]
+        B3["분 단위 침수·폭우 도착 티커 발송"]
+        B1 --> B2 --> B3
+    end
+
+    subgraph S3 ["3. 골목상권 옴니채널 연계"]
+        direction TB
+        C1["기후 악화 시 마감 타임세일 게시"]
+        C2["비정형 구어체 댓글 실시간 입력"]
+        C3["SLM 정형화 & 원자적 재고 락킹<br/>(특허 제10-2026-0182139호)"]
+        C1 --> C2 --> C3
+    end
+
+    S1 --> S2 --> S3
+      </div>
+    </div>
+
+    <!-- 기술적 해자(Moat) 배너 -->
+    <div class="moat-banner">
+      <span class="moat-badge">GOVERNMENT-CERTIFIED PATENT & TRL 6</span>
+      <div class="moat-content">
+        <h4>정부 공인 지식재산권 확보: 특허 제10-2026-0182139호 출원 완료</h4>
+        <p>본 서비스의 핵심 커머스 엔진은 단순 챗봇 래퍼가 아니며, <strong>'비정형 자연어 인터페이스 기반 언어 모델을 이용한 실시간 상거래 주문 정형화 및 원자적 동시성 재고 제어 시스템'</strong>으로 지식재산처(특허청) 공식 출원을 완료하여 법적 독점권을 확보했습니다. 경기도 화성시 봉담 마스터 거점에서 검증 완료된 엔터프라이즈 아키텍처(Next.js 16 + Supabase v3.13)를 바탕으로 8주 내 완벽한 실증을 보증합니다.</p>
+      </div>
+    </div>
+
+  
+    <!-- 하단 복귀 & 네비게이션 카드 -->
+    <div class="bottom-nav-card">
+      <div></div>
+      <a href="00_로컬리 포트폴리오.html" class="bottom-back-btn">
+        <i class="fa-solid fa-house-chimney"></i>
+        <span>전체 포트폴리오 (Enterprise Proof Hub)로 돌아가기</span>
+      </a>
+      <a href="02_아이디어를 어떻게 구현할 계획인가요.html" class="pager-btn" style="padding:10px 16px; font-size:13px;">다음: 02. 구현 계획 <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+</div>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+  </script>
+</body>
+</html>
