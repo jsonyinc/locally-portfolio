@@ -61,12 +61,13 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
-    html { scroll-behavior: smooth; }
-    body { background-color: var(--off-white); color: var(--slate-charcoal); line-height: 1.65; font-size: 15px; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; max-width: 100vw; }
+    body { background-color: var(--off-white); color: var(--slate-charcoal); line-height: 1.65; font-size: 15px; -webkit-font-smoothing: antialiased; overflow-x: hidden; width: 100%; max-width: 100vw; position: relative; }
+    img, video, canvas, svg { max-width: 100%; height: auto; }
     a { text-decoration: none; color: inherit; }
 
     /* Container Standard */
-    .container { max-width: 1240px; margin: 0 auto; padding: 90px 24px; }
+    .container { max-width: 1240px; margin: 0 auto; padding: 90px 24px; width: 100%; }
     .section-header { text-align: center; max-width: 820px; margin: 0 auto 56px; }
     .section-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--civic-deep-blue); background: var(--civic-blue-light); padding: 5px 14px; border-radius: 99px; margin-bottom: 14px; letter-spacing: 0.03em; border: 1px solid rgba(30, 58, 138, 0.15); }
     .section-title { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.35; margin-bottom: 16px; color: var(--slate-charcoal); }
@@ -220,7 +221,7 @@
        [섹션 7 - 원형 보존] 3대 이해관계자 맞춤형 정량 혜택 탭
        ========================================================================== */
     .persona-tab-wrap { max-width: 900px; margin: 0 auto; }
-    .persona-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
+    .persona-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
     .persona-tab-btn { background: white; border: 1px solid var(--border-subtle); padding: 12px 24px; border-radius: 99px; font-size: 14.5px; font-weight: 700; color: var(--slate-muted); cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow-soft); }
     .persona-tab-btn.active { background: var(--civic-deep-blue); color: white; border-color: var(--civic-deep-blue); transform: translateY(-2px); }
     .persona-content-card { background: white; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-soft); display: none; }
@@ -368,7 +369,14 @@
     .lightbox-img-wrap { max-height: 70vh; overflow-y: auto; text-align: center; background: #091228; padding: 12px; }
     .lightbox-img-wrap img { max-width: 100%; height: auto; border-radius: 8px; }
 
-    /* Responsive */
+    .mobile-scroll-hint { display: none; align-items: center; justify-content: center; gap: 6px; font-size: 11.5px; font-weight: 700; color: #EA580C; background: #FFF7ED; border: 1px solid #FFEDD5; padding: 7px 12px; border-radius: 6px; margin-bottom: 12px; }
+    .mobile-menu-header { display: none; width: 100%; padding-bottom: 14px; margin-bottom: 10px; border-bottom: 1px solid #E2E8F0; }
+    .mobile-cta-btn { display: block; text-align: center; background: var(--tangerine-action); color: white !important; padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 800; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25); }
+    .mobile-proof-btn { display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(30, 58, 138, 0.08); color: var(--civic-deep-blue) !important; border: 1px solid rgba(30, 58, 138, 0.2); padding: 9px 12px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700; }
+
+    /* ==========================================================================
+       [모바일 전용 반응형 브레이크포인트] 960px 태블릿 / 768px 모바일 / 640px / 400px
+       ========================================================================== */
     @media (max-width: 960px) {
       .hero-inner { grid-template-columns: 1fr; }
       .bento-grid-3 { grid-template-columns: 1fr; }
@@ -382,8 +390,154 @@
       .gov-network-grid { grid-template-columns: 1fr; }
       .contact-card { grid-template-columns: 1fr; }
       .footer-inner { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 20px 20px 28px;
+        box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
+        border-bottom: 1px solid var(--border-subtle);
+        gap: 12px;
+        align-items: stretch;
+        z-index: 999;
+      }
+      .nav-links.mobile-open {
+        display: flex;
+        animation: fadeIn 0.2s ease;
+      }
+      .mobile-menu-header { display: block; }
+      .nav-links a {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: var(--slate-charcoal);
+        padding: 8px 4px;
+        width: 100%;
+        border-bottom: 1px solid #F8FAFC;
+      }
+      .nav-links a:hover { color: var(--civic-deep-blue); }
       .nav-mobile-btn { display: block; }
+    }
+
+    @media (max-width: 768px) {
+      /* 컨테이너 및 섹션 헤더 다이어트 */
+      .container { padding: 50px 16px; }
+      .section-header { margin-bottom: 32px; }
+      .section-title { font-size: 24px; line-height: 1.35; margin-bottom: 12px; }
+      .section-desc { font-size: 13.5px; line-height: 1.6; }
+
+      /* GNB 768px 규격 */
+      .navbar { height: 62px; }
+      .nav-container { padding: 0 12px; gap: 8px; }
+      .nav-links { top: 62px; }
+      .logo-locally-img { height: 28px; }
+      .logo-aionlabs-icon { height: 22px; width: 22px; }
+      .btn-proofhub { padding: 6px 9px; font-size: 11.5px; }
+
+      /* Hero 섹션 모바일 */
+      .hero { padding: 48px 16px 42px; }
+      .hero-badge { font-size: 11px; padding: 4px 10px; max-width: 100%; word-break: keep-all; }
+      .hero-title { font-size: 27px; line-height: 1.3; margin-bottom: 16px; }
+      .hero-desc { font-size: 14px; line-height: 1.6; margin-bottom: 22px; }
+      .hero-actions { flex-direction: column; gap: 10px; width: 100%; }
+      .btn-hero-primary, .btn-hero-secondary { width: 100%; justify-content: center; text-align: center; font-size: 14px; padding: 12px 18px; }
+      .hero-mock-window { padding: 14px; }
+      .sim-tab-btns { flex-wrap: wrap; gap: 4px; }
+      .sim-tab-btn { font-size: 10.5px; padding: 4px 8px; }
+      .radar-tag { font-size: 11px; }
+      .eta-badge { font-size: 10px; padding: 2px 6px; }
+      .mini-card { padding: 10px 12px; }
+      .mini-card-val { font-size: 15px; }
+
+      /* 섹션 3: 통계 */
+      .stats-container { padding: 18px 14px; margin-top: 24px; gap: 14px; }
+      .stat-num { font-size: 24px; }
+      .stat-label { font-size: 12px; }
+      .stat-sub { font-size: 10px; }
+
+      /* 섹션 4: 4대 엔진 */
+      .engine-card { padding: 22px 16px; }
+      .engine-icon { font-size: 28px; margin-bottom: 10px; }
+      .engine-title { font-size: 17px; }
+      .engine-desc { font-size: 13.5px; }
+
+      /* 섹션 5: 플라이휠 가로 5열 -> 세로 전환 */
+      .flywheel-box { padding: 20px 14px; }
+      .flywheel-flow { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
+      .flywheel-arrow { transform: rotate(90deg); margin: 2px 0; font-size: 16px; text-align: center; }
+      .flywheel-step { padding: 16px 12px; width: 100%; }
+      .monetize-panel-card { padding: 20px 14px; }
+
+      /* 섹션 6: 특허 */
+      .patent-section { padding: 36px 14px; margin: 20px 0; border-radius: var(--radius-md); }
+      .patent-card { padding: 18px 14px; }
+      .patent-title { font-size: 17px; }
+      .patent-code-box { font-size: 11px; padding: 10px; word-break: break-all; }
+
+      /* 섹션 7: 페르소나 탭 */
+      .persona-tabs { gap: 6px; margin-bottom: 18px; }
+      .persona-tab-btn { padding: 8px 12px; font-size: 12px; }
+      .persona-content-card { padding: 20px 14px; }
+      .persona-metric-box { padding: 14px 10px; }
+      .persona-metric-val { font-size: 22px; }
+
+      /* 섹션 8: MVP */
+      .mvp-section { padding: 48px 14px; margin: 20px 0; border-radius: var(--radius-md); }
+      .mvp-tab-bar { gap: 6px; margin-bottom: 20px; }
+      .mvp-tab-btn { font-size: 11.5px; padding: 6px 11px; }
+      .pwa-device-card { max-width: 100%; flex: 1 1 100%; padding: 12px; }
+      .pwa-frame { height: 320px; }
+
+      /* 섹션 9: 트랙 & 프라이싱 */
+      .track-section-card { padding: 20px 14px; margin-bottom: 20px; min-width: 0; }
+      .track-title { font-size: 16.5px; }
+      .formula-banner { padding: 12px 12px; font-size: 12px; }
+      .calc-252-box { padding: 16px 12px; }
+      .calc-formula { font-size: 13px; word-break: break-all; line-height: 1.45; }
+      .calc-desc { font-size: 11.5px; }
+      .mobile-scroll-hint { display: flex; }
+      .pricing-table-wrap { width: 100%; max-width: 100%; min-width: 0; -webkit-overflow-scrolling: touch; }
+      .b2g-roadmap-bar { flex-direction: column; align-items: flex-start; padding: 12px; gap: 6px; font-size: 12px; }
+
+      /* 섹션 10 & 11: 거버넌스 & 문의 */
+      .gov-network-grid { padding: 20px 14px; gap: 16px; }
+      .contact-card { padding: 24px 14px; gap: 20px; }
+      .contact-form select, .contact-form input, .contact-form textarea { padding: 11px 12px; font-size: 13.5px; }
+      .btn-submit { padding: 13px; font-size: 14px; }
+
+      /* 푸터 */
+      footer { padding: 36px 14px 24px; }
+      .footer-inner { gap: 24px; padding-bottom: 24px; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; font-size: 11.5px; }
+    }
+
+    @media (max-width: 640px) {
+      /* GNB 가로폭 초과 원천 차단 */
+      .logo-aionlabs-typo { display: none; }
+      .brand-divider { margin: 0 4px; }
+      .nav-cta { display: none; } /* 모바일 드롭다운 메뉴로 이동 */
+      .btn-proofhub { padding: 5px 8px; font-size: 11px; }
+
+      /* Stats 1열 */
+      .stats-container { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px; }
+      .stat-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+      /* SOM 1열 */
+      .market-som-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 400px) {
+      .hero-title { font-size: 24px; }
+      .proofhub-full { display: none; }
+      .proofhub-short { display: inline !important; }
     }
   </style>
 </head>
@@ -405,22 +559,28 @@
         </a>
       </div>
 
-      <div class="nav-links">
-        <a href="#problem">해결 과제</a>
-        <a href="#engines">4대 엔진</a>
-        <a href="#monetization">수익화 모델</a>
-        <a href="#patents">양대 특허</a>
-        <a href="#personas">3대 혜택</a>
-        <a href="#mvp">MVP 실증</a>
-        <a href="#market">시장 규모</a>
-        <a href="#governance">거점 거버넌스</a>
-        <a href="#contact">도입 문의</a>
+      <div class="nav-links" id="navLinks">
+        <div class="mobile-menu-header">
+          <a href="#contact" class="mobile-cta-btn" onclick="toggleMobileNav()">지자체·상권 제휴 신청</a>
+          <a href="proof-hub.html" class="mobile-proof-btn">🏛️ 기술 증빙 (Proof Hub) ↗</a>
+        </div>
+        <a href="#problem" onclick="toggleMobileNav()">해결 과제</a>
+        <a href="#engines" onclick="toggleMobileNav()">4대 엔진</a>
+        <a href="#monetization" onclick="toggleMobileNav()">수익화 모델</a>
+        <a href="#patents" onclick="toggleMobileNav()">양대 특허</a>
+        <a href="#personas" onclick="toggleMobileNav()">3대 혜택</a>
+        <a href="#mvp" onclick="toggleMobileNav()">MVP 실증</a>
+        <a href="#market" onclick="toggleMobileNav()">시장 규모</a>
+        <a href="#governance" onclick="toggleMobileNav()">거점 거버넌스</a>
+        <a href="#contact" onclick="toggleMobileNav()">도입 문의</a>
       </div>
 
       <div class="nav-actions">
         <!-- TIPS/정부지원 심사위원용 Proof Hub 영구 보존 링크 (지침 ①) -->
         <a href="proof-hub.html" class="btn-proofhub" title="정부지원/투자 심사위원 및 개발자용 EA 기술 증빙 허브">
-          <span>🏛️</span> 기술 증빙(Proof Hub) ↗
+          <span>🏛️</span>
+          <span class="proofhub-full">기술 증빙(Proof Hub) ↗</span>
+          <span class="proofhub-short" style="display:none;">증빙 Hub ↗</span>
         </a>
         <a href="#contact" class="nav-cta">지자체·상권 제휴 신청</a>
         <button class="nav-mobile-btn" onclick="toggleMobileNav()" aria-label="모바일 메뉴 열기">
@@ -1316,6 +1476,11 @@
         </div>
       </div>
 
+      <!-- 모바일 가로 스크롤 안내 배지 -->
+      <div class="mobile-scroll-hint">
+        <span>👈</span> 좌우로 터치 스크롤하여 전국 252개 5등급 프라이싱 전수표를 확인하세요 <span>👉</span>
+      </div>
+
       <!-- Tier A~E 5등급 프라이싱 테이블 (VC 및 투자자 보고용 정밀 레이아웃) -->
       <div class="pricing-table-wrap">
         <table class="pricing-table">
@@ -1742,19 +1907,8 @@
     /* 8. Mobile Nav Toggle */
     function toggleMobileNav() {
       const navLinks = document.querySelector('.nav-links');
-      if (navLinks.style.display === 'flex') {
-        navLinks.style.display = 'none';
-      } else {
-        navLinks.style.display = 'flex';
-        navLinks.style.flexDirection = 'column';
-        navLinks.style.position = 'absolute';
-        navLinks.style.top = '72px';
-        navLinks.style.left = '0';
-        navLinks.style.right = '0';
-        navLinks.style.background = 'white';
-        navLinks.style.padding = '20px';
-        navLinks.style.boxShadow = '0 10px 25px rgba(0,0,0,0.1)';
-        navLinks.style.zIndex = '999';
+      if (navLinks) {
+        navLinks.classList.toggle('mobile-open');
       }
     }
   </script>
