@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Locally - 이 프로젝트의 최종 목표는 무엇인가요? (Portfolio Section 4)</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --brand-mint: #00E5A3;
+      --brand-dark: #0D1117;
+      --card-bg: #161B22;
+      --border-color: #30363D;
+      --text-main: #F0F6FC;
+      --text-muted: #8B949E;
+      --accent-coral: #FF5A79;
+      --accent-blue: #388BFD;
+      --accent-amber: #FFA800;
+      --accent-purple: #BC8CFF;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--brand-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    .section-badge {
+      display: inline-block;
+      background: rgba(0, 229, 163, 0.15);
+      color: var(--brand-mint);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      border: 1px solid var(--brand-mint);
+    }
+
+    h1.title {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 16px;
+      color: #FFFFFF;
+    }
+
+    p.lead-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+    }
+
+    /* 8주 검증 핵심 KPI 카드 */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px 20px;
+      text-align: left;
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .kpi-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--brand-mint);
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* 4대 축 MVP 산출물 vs 사후 확장성 테이블 */
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .table-header-title {
+      padding: 18px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      background: #1F242C;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    table.goal-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    table.goal-table th, table.goal-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: top;
+    }
+
+    table.goal-table th {
+      background: #191E26;
+      color: var(--text-muted);
+      font-weight: 600;
+      width: 14%;
+    }
+
+    .badge-col {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+    .badge-news { background: rgba(56, 139, 253, 0.2); color: var(--accent-blue); }
+    .badge-weather { background: rgba(0, 229, 163, 0.2); color: var(--brand-mint); }
+    .badge-comm { background: rgba(255, 168, 0, 0.2); color: var(--accent-amber); }
+    .badge-shop { background: rgba(255, 90, 121, 0.2); color: var(--accent-coral); }
+
+    /* 다이어그램 래퍼 */
+    .diagram-wrapper {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 26px;
+      margin-bottom: 40px;
+    }
+
+    .diagram-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: #FFFFFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Top-Tier 및 사후 로드맵 배너 */
+    .toptier-banner {
+      background: linear-gradient(135deg, rgba(188, 140, 255, 0.12) 0%, rgba(0, 229, 163, 0.12) 100%);
+      border: 1px solid var(--accent-purple);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 40px;
+    }
+
+    .toptier-badge {
+      display: inline-block;
+      background: var(--accent-purple);
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .toptier-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .toptier-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* 8주 스프린트 타임라인 리스트 */
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .timeline-card {
+      background: #0D1117;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .timeline-step {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--brand-mint);
+      margin-bottom: 4px;
+    }
+
+    .timeline-task {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 4px;
+    }
+
+    .timeline-detail {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+      table.goal-table th, table.goal-table td { padding: 10px; font-size: 12px; }
+      h1.title { font-size: 22px; }
+    }
+  </style>
+
+  <!-- FontAwesome & Pretendard -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    /* 상단/하단 포트폴리오 복귀 네비게이션 */
+    .top-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(22, 27, 34, 0.95);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 18px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .back-hub-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(0, 229, 163, 0.12);
+      border: 1px solid var(--brand-mint);
+      color: var(--brand-mint);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 8px;
+      transition: all 0.22s ease;
+    }
+
+    .back-hub-btn:hover {
+      background: var(--brand-mint);
+      color: #0D1117;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 229, 163, 0.35);
+    }
+
+    .nav-doc-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .doc-badge-pill {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(56, 139, 253, 0.15);
+      color: #388BFD;
+      border: 1px solid rgba(56, 139, 253, 0.3);
+    }
+
+    .doc-title-mini {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .doc-pager {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pager-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 11px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .pager-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      border-color: #8B949E;
+    }
+
+    /* 하단 복귀 & 페이징 카드 */
+    .bottom-nav-card {
+      margin-top: 40px;
+      padding: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .bottom-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--brand-mint);
+      color: #0D1117;
+      text-decoration: none;
+      font-size: 14.5px;
+      font-weight: 800;
+      padding: 12px 24px;
+      border-radius: 8px;
+      transition: all 0.22s ease;
+    }
+
+    .bottom-back-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 229, 163, 0.35);
+    }
+  </style>
+
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- 상단 복귀 네비게이션 바 -->
+    <div class="top-nav-bar">
+      <a href="00_로컬리 포트폴리오.html" class="back-hub-btn">
+        <i class="fa-solid fa-house-chimney"></i>
+        <span>← 전체 포트폴리오 (Enterprise Proof Hub)로 돌아가기</span>
+      </a>
+      <div class="nav-doc-meta">
+        <span class="doc-badge-pill">DOC 04</span>
+        <span class="doc-title-mini">프로젝트 최종 목표 & 로드맵</span>
+        <div class="doc-pager">
+          <a href="03_이 아이디어를 실현하기 위해 AI를 어떻게 활용할 예정인가요.html" class="pager-btn" title="이전 문서"><i class="fa-solid fa-chevron-left"></i> 03. AI 활용 방안</a> <a href="00_로컬리 포트폴리오.html" class="pager-btn" title="다음 문서">00. 전체 포트폴리오 <i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 섹션 헤더 -->
+    <div class="section-badge">PORTFOLIO SECTION 4</div>
+    <h1 class="title">이 프로젝트의 최종 목표는 무엇인가요?<br>(Final Deliverable / MVP & Scalability)</h1>
+    <p class="lead-desc">로컬리(Locally)는 8주간 화성시 봉담 마스터 거점에서 상점 10곳 및 주민 100인을 대상으로 실거래 실증을 완수하고, 12월 성과공유회 Top-Tier(총 1억 원 지원)를 통해 전국 226개 기초지자체로 확장합니다.</p>
+
+    <!-- 8주 검증 정량 목표 KPI -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">화성시 봉담 파일럿 상점 온보딩</div>
+        <div class="kpi-value">10개소 <span style="font-size:12px; color:var(--text-muted);">확보</span></div>
+        <div class="kpi-sub">과일·정육·베이커리 등 신선식품 매장</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">실거래 및 비정형 댓글 주문 검증</div>
+        <div class="kpi-value">200건+ <span style="font-size:12px; color:var(--text-muted);">처리</span></div>
+        <div class="kpi-sub">주민 100인 투입, 주문 누락 0건 목표</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">소상공인 수기 정산 시간 절감</div>
+        <div class="kpi-value">87.5% <span style="font-size:12px; color:var(--text-muted);">단축</span></div>
+        <div class="kpi-sub">건당 5분 수기 대조 -> 10초 자동화</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">당일 미판매 재고 폐기 손실 방어</div>
+        <div class="kpi-value">30% <span style="font-size:12px; color:var(--text-muted);">감축</span></div>
+        <div class="kpi-sub">악천후 시 반경 3km 타임세일 즉각 소진</div>
+      </div>
+    </div>
+
+    <!-- 8주 스프린트 WBS 일정표 -->
+    <div class="diagram-wrapper">
+      <div class="diagram-title">
+        <span>8주 압축 PoC 스프린트 일정표 (Sprint Schedule: 10.14 ~ 12.11)</span>
+        <span style="font-size:12px; color:var(--brand-mint); font-weight:normal;">TRL 6 기반 즉시 착수</span>
+      </div>
+      <div class="timeline-grid">
+        <div class="timeline-card">
+          <div class="timeline-step">Sprint 1 (1~2주차 / 10.14 ~ 10.27)</div>
+          <div class="timeline-task">인프라 프로비저닝 & 상점 온보딩</div>
+          <div class="timeline-detail">토큰 및 클라우드 연동, 봉담 10개 상점 타임세일 품목 DB 등록</div>
+        </div>
+        <div class="timeline-card">
+          <div class="timeline-step">Sprint 2 (3~4주차 / 10.28 ~ 11.10)</div>
+          <div class="timeline-task">SLM 파서 및 기상 티커 현장 튜닝</div>
+          <div class="timeline-detail">상인 구어체 방언 데이터 반영, VSRT 초단기 15분 단위 폭우 티커 검증</div>
+        </div>
+        <div class="timeline-card">
+          <div class="timeline-step">Sprint 3 (5~6주차 / 11.11 ~ 11.24)</div>
+          <div class="timeline-task">대주민 100인 현장 라이브 실증</div>
+          <div class="timeline-detail">실제 타임세일 댓글 주문 200건 체결, 원자적 재고 락 오버셀링 0건 입증</div>
+        </div>
+        <div class="timeline-card">
+          <div class="timeline-step">Sprint 4 (7~8주차 / 11.25 ~ 12.11)</div>
+          <div class="timeline-task">정량 성과 분석 & 최종 보고</div>
+          <div class="timeline-detail">수기 공수 87.5% 절감 리포트, 라이브 데모 환경 및 Top-Tier 제안 완성</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4대 축 MVP 산출물 및 사후 확장성 매트릭스 -->
+    <div class="table-container">
+      <div class="table-header-title">
+        <span>로컬리 4대 서비스별 8주 MVP 산출물 및 사후 확장 계획 (Scalability)</span>
+        <span style="font-size:12px; color:var(--text-muted); font-weight:normal;">226개 선거구 일원화 모델</span>
+      </div>
+      <table class="goal-table">
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>8주차 최종 산출물 (Dec 11 MVP)</th>
+            <th>현장 검증 목표 (PoC Validation)</th>
+            <th>성과공유회 이후 사후 확장 계획 (Scalability)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge-col badge-news">동네 뉴스</span></td>
+            <td>군·구 선거구 기준 3단 세그먼트 탭 ([전체], [효행구], [화성시]) 최신순 0ms 서빙 PWA</td>
+            <td>Locality Validator v1.5.0으로 타 지자체 경합 뉴스 0건, 순수 행정 뉴스 큐레이션 정밀도 98%</td>
+            <td>전국 226개 기초지자체 보도자료 RSS 및 지역 언론 자동 인덱싱 파이프라인 수평 확장</td>
+          </tr>
+          <tr>
+            <td><span class="badge-col badge-weather">동네 기상</span></td>
+            <td>60fps 무격자 위성 구름 레이더 캔버스 + 분 단위 폭우·침수 도착 안내 1문장 AI 행동 티커</td>
+            <td>기상청 VSRT 시계열 연동 초단기 강수 피크 감지 적중률 90% 이상 (15분 단위 보행 경고)</td>
+            <td>지자체 재난안전과 관제 대시보드 연계 및 빗물받이 막힘/하천 범람 센서 연동 스마트 방재망 구축</td>
+          </tr>
+          <tr>
+            <td><span class="badge-col badge-comm">동네 마당</span></td>
+            <td>맘카페를 대체하는 실시간 군·구 독립 SNS 피드 + 6시간 TTL 번개모임 + 정시 AI 핫이슈 요약</td>
+            <td>상업 스팸 없는 클린 공론장 유지, 매 정시 AI 브리핑 카드 발행 성공률 100% 달성</td>
+            <td>주민 참여형 동네 현안 투표, 지자체 조례 의견 수렴 옴부즈만 플랫폼으로의 GovTech 확장</td>
+          </tr>
+          <tr>
+            <td><span class="badge-col badge-shop">동네 커머스</span></td>
+            <td>특허 제10-2026-0182139호 기반: 비정형 댓글 Few-shot SLM 파서 & PostgreSQL 원자적 재고 락</td>
+            <td>댓글 주문 200건 완결, 상인 수기 대조 공수 87.5% 절감, 동시 다발 주문 시 오버셀링 0건 입증</td>
+            <td>전국 226개 지자체 '수수료 0% 상생 커머스' 보급 및 지역화폐 연동 소상공인 공급망 SaaS 전환</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 확장 플라이휠 다이어그램 -->
+    <div class="diagram-wrapper">
+      <div class="diagram-title">
+        <span>로컬리(Locally) 전국 226개 기초지자체 확장 플라이휠 (Scalability Flywheel)</span>
+      </div>
+      <div class="mermaid">
+flowchart LR
+    subgraph Phase1 ["1. 8주 마스터 거점 실증 (TRL 6)"]
+        A1["화성시 봉담 파일럿 가동"]
+        A2["10개 상점 & 100인 테스터"]
+        A3["정량 KPI 달성 (폐기 30% 감축)"]
+        A1 --> A2 --> A3
+    end
+
+    subgraph Phase2 ["2. 성과공유회 Top-Tier (1억 원)"]
+        B1["12월 중순 상위 5% 선정"]
+        B2["특허 기술 고도화 & 전용 인프라 확충"]
+        B3["B2G 지자체 표준 모델 패키징"]
+        B1 --> B2 --> B3
+    end
+
+    subgraph Phase3 ["3. 전국 226개 선거구 수평 확장"]
+        C1["전국 community_spaces 공간 개방"]
+        C2["수수료 0% 골목 커머스 SaaS 안착"]
+        C3["지자체 재난/상생 행정 대시보드 납품"]
+        C1 --> C2 --> C3
+    end
+
+    Phase1 --> Phase2 --> Phase3
+      </div>
+    </div>
+
+    <!-- Top-Tier 후속 연계 배너 -->
+    <div class="toptier-banner">
+      <span class="toptier-badge">TOP-TIER 1억 원 후속 사업화 계획</span>
+      <div class="toptier-title">12월 성과공유회 최상위 등급 진입 및 지속 가능한 자생 생태계 구축</div>
+      <div class="toptier-desc">
+        로컬리는 8주간의 단발성 지원에 머무르지 않고, 12월 성과공유회에서 상위 5% Top-Tier(총 1억 원 지원)로 진입하여 전국 확장 자금을 확보합니다. 이미 데이터베이스 레벨에서 전국 226개 기초지자체 마스터(`community_spaces`)와 기본 거점 영구 시드를 완비하였으므로, 별도의 아키텍처 재설계 없이 경기도 전역 및 전국 지자체로 즉각 확산이 가능합니다. 대형 플랫폼의 15% 수수료 착취를 끊어내는 골목상권 옴니채널 인프라와 공공 안전망을 결합한 지속 가능한 비즈니스 모델을 증명하겠습니다.
+      </div>
+    </div>
+
+  
+    <!-- 하단 복귀 & 네비게이션 카드 -->
+    <div class="bottom-nav-card">
+      <a href="03_이 아이디어를 실현하기 위해 AI를 어떻게 활용할 예정인가요.html" class="pager-btn" style="padding:10px 16px; font-size:13px;"><i class="fa-solid fa-arrow-left"></i> 이전: 03. AI 활용 방안</a>
+      <a href="00_로컬리 포트폴리오.html" class="bottom-back-btn">
+        <i class="fa-solid fa-house-chimney"></i>
+        <span>전체 포트폴리오 (Enterprise Proof Hub)로 돌아가기</span>
+      </a>
+      <a href="00_로컬리 포트폴리오.html" class="pager-btn" style="padding:10px 16px; font-size:13px;">다음: 00. 전체 포트폴리오 <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+</div>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+  </script>
+</body>
+</html>
