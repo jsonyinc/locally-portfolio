@@ -1771,18 +1771,20 @@ IF ETA &lt;= 30min AND pedestrian_drop &gt;= 0.40 THEN
         </div>
       </div>
 
-      <form class="contact-form" onsubmit="handleContactSubmit(event)">
-        <select required aria-label="협력 구분 선택">
+      <form class="contact-form" id="partnershipForm" onsubmit="handleContactSubmit(event)">
+        <!-- 스팸 봇 무력화를 위한 허니팟 (Honeypot) 필드 -->
+        <input type="text" name="honeypot" style="display:none !important;" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <select name="category" required aria-label="협력 구분 선택">
           <option value="">협력 구분 선택 (필수)</option>
           <option value="gov">지자체 행정홍보 / 기획예산 / 방재과 (B2G)</option>
           <option value="merchant">소상공인 / 전통시장 / 슈퍼마켓협동조합 (B2B)</option>
           <option value="ir">투자사 / 액셀러레이터 / TIPS 운영사 (IR)</option>
           <option value="other">기타 비즈니스 제휴</option>
         </select>
-        <input type="text" placeholder="담당자 성함 및 직함" required aria-label="담당자 성함" />
-        <input type="email" placeholder="기관/회사 공식 이메일" required aria-label="이메일" />
-        <input type="tel" placeholder="연락처 (010-XXXX-XXXX)" required aria-label="연락처" />
-        <textarea rows="4" placeholder="문의 내용 (관할 지역 또는 점포 규모, 희망 도입 시기 등)" required aria-label="문의 내용"></textarea>
+        <input type="text" name="name" placeholder="담당자 성함 및 직함" required aria-label="담당자 성함" />
+        <input type="email" name="email" placeholder="기관/회사 공식 이메일" required aria-label="이메일" />
+        <input type="tel" name="phone" placeholder="연락처 (010-XXXX-XXXX)" required aria-label="연락처" />
+        <textarea name="content" rows="4" placeholder="문의 내용 (관할 지역 또는 점포 규모, 희망 도입 시기 등)" required aria-label="문의 내용"></textarea>
         <button type="submit" class="btn-submit">협약 및 제휴 상담 신청하기</button>
       </form>
     </div>
@@ -1999,11 +2001,49 @@ IF ETA &lt;= 30min AND pedestrian_drop &gt;= 0.40 THEN
       }
     });
 
-    /* 7. Contact Form Handler */
-    function handleContactSubmit(e) {
+    /* 7. Contact Form Handler (Vercel Serverless /api/inquiry 비동기 호출 & 연타 방어) */
+    async function handleContactSubmit(e) {
       e.preventDefault();
-      alert('🏛️ Locally(로컬리) 시범사업 및 제휴 상담 신청이 정상 접수되었습니다.\n\n기재해주신 공식 이메일 및 유선으로 AIonLabs 사업개발 총괄팀이 24시간 이내에 직접 연락드리겠습니다.');
-      e.target.reset();
+      const form = e.target;
+      const submitBtn = form.querySelector('.btn-submit');
+      const originalText = submitBtn.textContent;
+
+      // 1. 중복 클릭 방지 (버튼 비활성화)
+      submitBtn.disabled = true;
+      submitBtn.textContent = '신청서 안전 전송 중...';
+
+      const formData = new FormData(form);
+      const payload = {
+        honeypot: formData.get('honeypot') || '',
+        category: formData.get('category') || '',
+        name: formData.get('name') || '',
+        email: formData.get('email') || '',
+        phone: formData.get('phone') || '',
+        content: formData.get('content') || ''
+      };
+
+      try {
+        const res = await fetch('/api/inquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          throw new Error(data.error || '접수 서버 응답 오류');
+        }
+
+        alert('🏛️ Locally(로컬리) 시범사업 및 제휴 상담 신청이 정상 접수되었습니다.\n\n온라인 원장에 안전하게 등록되었으며, 기재해주신 공식 이메일 및 유선으로 AIonLabs 사업개발 총괄팀이 24시간 이내에 직접 연락드리겠습니다.');
+        form.reset();
+      } catch (err) {
+        console.error('Contact submit error:', err);
+        alert('⚠️ 상담 접수 중 일시적인 통신 오류가 발생했습니다.\n\n불편을 드려 죄송합니다. 직통 유선(010-4985-2853) 또는 공식 이메일(young.kim@aionlabs.kr)로 연락해 주시면 즉시 상담을 도와드리겠습니다.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
     }
 
     /* 8. Mobile Nav Toggle */
