@@ -107,7 +107,7 @@
     .hero-patent-pill i { color: #F59E0B; margin-right: 6px; }
 
     /* Dual Simulator Sandbox (Modern Mobile-First Widget) */
-    .hero-mock-window { background: rgba(15, 23, 42, 0.92); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: var(--radius-lg); backdrop-filter: blur(24px); padding: 22px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.65), 0 0 30px rgba(30, 58, 138, 0.2); position: relative; z-index: 50; }
+    .hero-mock-window { background: rgba(15, 23, 42, 0.92); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: var(--radius-lg); backdrop-filter: blur(24px); padding: 22px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.65), 0 0 30px rgba(30, 58, 138, 0.2); position: relative; z-index: 50; min-height: 330px; display: flex; flex-direction: column; }
     .mock-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px; margin-bottom: 16px; gap: 10px; }
     .sim-live-title { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; color: #93C5FD; letter-spacing: -0.2px; }
     .sim-live-dot { width: 8px; height: 8px; border-radius: 50%; background: #10B981; box-shadow: 0 0 8px #10B981; animation: pulse 1.8s infinite; }
@@ -115,9 +115,9 @@
     .sim-tab-btn { background: none; border: none; color: #94A3B8; font-size: 11.5px; font-weight: 700; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; white-space: nowrap; text-align: center; }
     .sim-tab-btn.active { background: var(--civic-deep-blue); color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
 
-    .sim-panel { display: none; }
-    .sim-panel.active { display: block; animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .sim-panel { display: none; min-height: 248px; }
+    .sim-panel.active { display: flex; flex-direction: column; justify-content: space-between; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     /* Simulator A: Weather ETA Slider */
     .weather-live-box { background: rgba(30, 58, 138, 0.4); border: 1px solid rgba(147, 197, 253, 0.25); padding: 14px; border-radius: 12px; margin-bottom: 14px; }
@@ -136,7 +136,7 @@
     .mini-card-val { font-size: 18px; font-weight: 800; color: white; }
 
     /* Simulator B: Natural Language Atomic Lock */
-    .commerce-live-box { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); padding: 14px; border-radius: 12px; }
+    .commerce-live-box { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); padding: 18px 16px; border-radius: 12px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
     .store-badge { display: inline-flex; align-items: center; gap: 5px; background: var(--merchant-gold); color: white; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px; margin-bottom: 6px; }
     .deal-title { font-size: 13.5px; font-weight: 700; color: white; margin-bottom: 4px; }
     .stock-counter { font-size: 12px; color: #F97316; font-weight: 700; }
@@ -485,7 +485,8 @@
       .hero-title { font-size: 26px; line-height: 1.3; margin-bottom: 12px; }
       .hero-desc { font-size: 13.5px; line-height: 1.55; margin-bottom: 14px; }
       .hero-patent-pill { font-size: 11.5px; padding: 6px 12px; margin-bottom: 14px; width: 100%; justify-content: center; }
-      .hero-mock-window { padding: 14px; }
+      .hero-mock-window { padding: 14px; min-height: 320px; }
+      .sim-panel { min-height: 236px; }
       .mock-header { flex-direction: column; align-items: stretch; gap: 8px; }
       .sim-live-title { justify-content: center; }
       .sim-tab-btns { width: 100%; }
@@ -600,7 +601,7 @@
 
       <div class="nav-links" id="navLinks">
         <div class="mobile-menu-header">
-          <a href="#contact" class="mobile-cta-btn" onclick="toggleMobileNav()">지자체·상권 제휴 신청</a>
+          <a href="#contact" class="mobile-cta-btn" onclick="toggleMobileNav()">제휴 및 상담 신청</a>
           <a href="proof-hub.html" class="mobile-proof-btn">📱 100% 완성된 MVP 보기 ↗</a>
         </div>
         <a href="#problem" onclick="toggleMobileNav()">해결 과제</a>
@@ -620,7 +621,7 @@
           <span class="proofhub-full">📱 완성된 MVP 보기 ↗</span>
           <span class="proofhub-short" style="display:none;">MVP 보기 ↗</span>
         </a>
-        <a href="#contact" class="nav-cta">지자체·상권 제휴 신청</a>
+        <a href="#contact" class="nav-cta">제휴 및 상담 신청</a>
         <button class="nav-mobile-btn" onclick="toggleMobileNav()" aria-label="모바일 메뉴 열기">
           <i class="fa-solid fa-bars"></i>
         </button>
@@ -1791,9 +1792,9 @@ IF ETA &lt;= 30min AND pedestrian_drop &gt;= 0.40 THEN
   </section>
 
   <!-- 플로팅 캡슐 제휴 상담 버튼 (모바일 Safe Area & z-index: 990 & 푸터 도달 시 자동 숨김) -->
-  <a href="#contact" class="floating-inquiry-btn" id="floatingInquiryBtn" aria-label="지자체 및 상권 제휴 상담 신청">
+  <a href="#contact" class="floating-inquiry-btn" id="floatingInquiryBtn" aria-label="제휴 및 상담 신청">
     <span>💬</span>
-    <span>지자체·상권 제휴 상담</span>
+    <span>제휴 및 상담 신청</span>
   </a>
 
   <!-- ==========================================================================
